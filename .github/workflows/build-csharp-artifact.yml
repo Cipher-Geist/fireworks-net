@@ -1,0 +1,75 @@
+name: Build csharp artifact
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          source-url: https://api.nuget.org/v3/index.json
+          dotnet-version: 8.0.x
+        env:
+          NUGET_AUTH_TOKEN: ${{secrets.NUGET_API_KEY}}
+      - name: Install GitVersion @5
+        uses: gittools/actions/gitversion/setup@v0.9.7
+        with:
+          versionSpec: "5.x"
+          updateProjectFiles: "versionSpec"
+      - name: Restore Dependencies
+        run: |
+          dotnet restore src/CipherGeist.Math.Fireworks/CipherGeist.Math.Fireworks.csproj
+      - name: Determine Version
+        uses: gittools/actions/gitversion/execute@v0.9.7
+        with:
+          useConfigFile: true
+      - name: Build
+        run: |
+          dotnet_build()
+          {
+            ARG_PROJECT_PATH=$1
+            dotnet build \
+                $ARG_PROJECT_PATH \
+                --configuration Release \
+                --no-restore \
+                /p:Version=$GITVERSION_ASSEMBLYSEMVER \
+                /p:AssemblyVersion=$GITVERSION_ASSEMBLYSEMVER \
+                /p:InformationalVersion=$GITVERSION_INFORMATIONALVERSION
+          }
+          dotnet_build src/CipherGeist.Math.Fireworks/CipherGeist.Math.Fireworks.csproj
+      # - name: Run Unit Tests
+      #   run: |
+      #       dotnet test \
+      #           src/csharp/Protobuf/Migr8.DataContracts.Protobuf.Utils.Test/Migr8.DataContracts.Protobuf.Utils.Test.csproj \
+      #           --no-restore \
+      #           --verbosity normal
+      - name: Package
+        run: |
+          mkdir __out
+          dotnet_pack()
+          {
+              ARG_PROJECT_PATH=$1
+              dotnet pack \
+                $ARG_PROJECT_PATH \
+                -c Release \
+                -o __out \
+                --no-restore \
+                /p:Version=$GITVERSION_ASSEMBLYSEMVER \
+                /p:AssemblyVersion=$GITVERSION_ASSEMBLYSEMVER \
+                /p:InformationalVersion=$GITVERSION_INFORMATIONALVERSION
+          }
+          dotnet_pack src/CipherGeist.Math.Fireworks/CipherGeist.Math.Fireworks.csproj
+      - name: Publish to NuGet
+        run: dotnet nuget push "./__out/*.nupkg" --skip-duplicate --no-symbols --api-key ${{secrets.NUGET_API_KEY}}
+      - name: Cleanup
+        run: rm -rf __out
