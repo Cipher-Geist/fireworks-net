@@ -54,7 +54,7 @@ public sealed class FireworksAlgorithm : StepperFireworksAlgorithmBase<Fireworks
 		ArgumentNullException.ThrowIfNull(fireworks, nameof(fireworks));
 
 		CalculateQualities(fireworks);
-		_state = new AlgorithmState(fireworks, 0, BestWorstFireworkSelector.SelectBest(fireworks));
+		_state = new AlgorithmState(fireworks, 0, BestWorstFireworkSelector?.SelectBest(fireworks));
 	}
 
 	/// <summary>
@@ -95,7 +95,7 @@ public sealed class FireworksAlgorithm : StepperFireworksAlgorithmBase<Fireworks
 
 		_state.Fireworks = selectedFireworks;
 		_state.StepNumber = stepNumber;
-		_state.BestSolution = BestWorstFireworkSelector.SelectBest(selectedFireworks);
+		_state.BestSolution = BestWorstFireworkSelector?.SelectBest(selectedFireworks);
 
 		RaiseStepCompleted(new AlgorithmStateEventArgs(_state));
 	}

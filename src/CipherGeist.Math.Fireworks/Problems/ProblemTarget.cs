@@ -1,5 +1,4 @@
-﻿
-namespace CipherGeist.Math.Fireworks.Problems;
+﻿namespace CipherGeist.Math.Fireworks.Problems;
 
 /// <summary>
 /// Denotes what we are looking for: a minimum or a maximum

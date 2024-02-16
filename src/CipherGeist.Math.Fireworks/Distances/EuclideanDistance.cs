@@ -30,9 +30,6 @@ public class EuclideanDistance : DistanceBase
 	/// length is not equal to <paramref name="first"/>'s length.</exception>
 	public override double Calculate(double[] first, double[] second)
 	{
-		ArgumentNullException.ThrowIfNull(first);
-		ArgumentNullException.ThrowIfNull(second);
-
 		if (first.Length != second.Length)
 		{
 			throw new CoordinateLengthMismatchException();

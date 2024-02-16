@@ -12,7 +12,7 @@ public class Differentiator : IDifferentiator
 	/// <returns>First derivative of the <paramref name="func"/>.</returns>
 	/// <exception cref="System.ArgumentNullException"> if <paramref name="func"/>
 	/// is <c>null</c>.</exception>
-	public virtual Func<double, double> Differentiate(Func<double, double> func)
+	public virtual Func<double, double> Differentiate(Func<double, double>? func)
 	{
 		ArgumentNullException.ThrowIfNull(func);
 		return MathNet.Numerics.Differentiate.FirstDerivativeFunc(func);

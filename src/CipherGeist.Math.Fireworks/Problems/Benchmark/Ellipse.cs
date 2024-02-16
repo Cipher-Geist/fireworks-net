@@ -62,8 +62,7 @@ public sealed class Ellipse : BenchmarkProblem
 				}
 
 				return sum;
-			}
-		);
+			});
 
 		return new Ellipse(dimensions, initialDimensionRanges, func, new Solution(knownBestCoordinates, _knownBestQuality), _problemTarget);
 	}

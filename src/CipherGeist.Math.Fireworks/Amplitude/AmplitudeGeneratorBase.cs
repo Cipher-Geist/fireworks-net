@@ -1,11 +1,4 @@
-﻿using CipherGeist.Math.Fireworks.Explode;
-using CipherGeist.Math.Fireworks.Model.Fireworks;
-using CipherGeist.Math.Fireworks.Selection.Extremum;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-
-namespace CipherGeist.Math.Fireworks.Amplitude;
+﻿namespace CipherGeist.Math.Fireworks.Amplitude;
 
 /// <summary>
 /// The base class for all Amplitude generators. 

@@ -61,7 +61,7 @@ public sealed class FireworksAlgorithm2012 : StepperFireworksAlgorithmBase<Firew
 		Debug.Assert(fireworks != null, "Initial firework collection is null");
 
 		CalculateQualities(fireworks);
-		_state = new AlgorithmState(fireworks, 0, BestWorstFireworkSelector.SelectBest(fireworks));
+		_state = new AlgorithmState(fireworks, 0, BestWorstFireworkSelector?.SelectBest(fireworks));
 	}
 
 	/// <summary>
@@ -69,6 +69,8 @@ public sealed class FireworksAlgorithm2012 : StepperFireworksAlgorithmBase<Firew
 	/// </summary>
 	protected override void MakeStepImpl()
 	{
+		ArgumentNullException.ThrowIfNull(_state, nameof(_state));
+
 		int stepNumber = _state.StepNumber + 1;
 		var specificSparkParentIndices = Randomizer.NextUniqueInt32s(Settings.SpecificSparksNumber, 0, Settings.LocationsNumber);
 
@@ -102,7 +104,10 @@ public sealed class FireworksAlgorithm2012 : StepperFireworksAlgorithmBase<Firew
 		var eliteFirework = EliteStrategyGenerator.CreateSpark(eliteExplosion);
 		CalculateQuality(eliteFirework);
 
-		var worstFirework = BestWorstFireworkSelector.SelectWorst(selectedFireworks);
+		var worstFirework = BestWorstFireworkSelector?.SelectWorst(selectedFireworks);
+
+		ArgumentNullException.ThrowIfNull(worstFirework, nameof(worstFirework));
+
 		if (ShouldReplaceWorstWithElite(worstFirework, eliteFirework))
 		{
 			selectedFireworks.Remove(worstFirework);
@@ -111,7 +116,7 @@ public sealed class FireworksAlgorithm2012 : StepperFireworksAlgorithmBase<Firew
 
 		_state.Fireworks = selectedFireworks;
 		_state.StepNumber = stepNumber;
-		_state.BestSolution = BestWorstFireworkSelector.SelectBest(selectedFireworks);
+		_state.BestSolution = BestWorstFireworkSelector?.SelectBest(selectedFireworks);
 
 		RaiseStepCompleted(new AlgorithmStateEventArgs(_state));
 	}

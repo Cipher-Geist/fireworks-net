@@ -8,7 +8,7 @@ public interface IAlgorithmState
 	/// <summary>
 	/// Gets a collection of current fireworks.
 	/// </summary>
-	IEnumerable<Firework>? Fireworks { get; }
+	IEnumerable<Firework> Fireworks { get; }
 
 	/// <summary>
 	/// Gets the step number.
@@ -18,5 +18,5 @@ public interface IAlgorithmState
 	/// <summary>
 	/// Gets the best solution among Fireworks.
 	/// </summary>
-	Solution? BestSolution { get; }
+	Solution BestSolution { get; }
 }

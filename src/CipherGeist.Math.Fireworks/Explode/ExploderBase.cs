@@ -39,8 +39,8 @@ public abstract class ExploderBase
 	/// or <paramref name="extremumFireworkSelector"/> is <c>null</c>.</exception>
 	public ExploderBase(IExtremumFireworkSelector extremumFireworkSelector, ExploderSettings settings)
 	{
-		_extremumFireworkSelector = extremumFireworkSelector ?? throw new ArgumentNullException(nameof(extremumFireworkSelector));
-		Settings = settings ?? throw new ArgumentNullException(nameof(settings));
+		_extremumFireworkSelector = extremumFireworkSelector;
+		Settings = settings;
 
 		_minAllowedExplosionSparksNumberExact = settings.ExplosionSparksNumberLowerBound * settings.ExplosionSparksNumberModifier;
 		_maxAllowedExplosionSparksNumberExact = settings.ExplosionSparksNumberUpperBound * settings.ExplosionSparksNumberModifier;

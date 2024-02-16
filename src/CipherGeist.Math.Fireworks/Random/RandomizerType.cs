@@ -17,4 +17,4 @@ public enum RandomizerType
 	/// MersenneTwister.
 	/// </summary>
 	MersenneTwister
-};
+}

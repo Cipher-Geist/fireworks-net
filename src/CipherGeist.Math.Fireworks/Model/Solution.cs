@@ -14,7 +14,7 @@ public class Solution : IEquatable<Solution>, ISolution
 	/// <param name="quality">Solution quality (value of target function).</param>
 	public Solution(IDictionary<Dimension, double>? coordinates, double quality)
 	{
-		Coordinates = coordinates == null ? null : new Dictionary<Dimension, double>(coordinates);
+		Coordinates = coordinates ?? new Dictionary<Dimension, double>();
 		Quality = quality;
 	}
 
@@ -163,7 +163,7 @@ public class Solution : IEquatable<Solution>, ISolution
 	/// Gets or sets solution coordinates in problem space.
 	/// TODO: Think of replacing Dictionary with some derived class, like CoordinateDictionary.
 	/// </summary>
-	public IDictionary<Dimension, double>? Coordinates { get; protected set; }
+	public IDictionary<Dimension, double> Coordinates { get; protected set; }
 
 	/// <summary>
 	/// Gets or sets solution quality (value of target function).

@@ -89,5 +89,5 @@ public class CoordinateDictionary : IEquatable<CoordinateDictionary>
 	/// <summary>
 	/// Gets the collection of dimension intervals and their respective solution values.
 	/// </summary>
-	public Dictionary<Dimension, double>? Coordinates { get; }
+	public Dictionary<Dimension, double> Coordinates { get; } = [];
 }

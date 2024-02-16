@@ -15,8 +15,7 @@ public class PolynomialFit : IFit
 	/// is less than zero.</exception>
 	public PolynomialFit(int order)
 	{
-		if (order < 0)
-			throw new ArgumentOutOfRangeException(nameof(order));
+		ArgumentOutOfRangeException.ThrowIfNegative(order);
 
 		_order = order;
 	}
@@ -34,9 +33,6 @@ public class PolynomialFit : IFit
 	/// is <c>null</c>.</exception>
 	public Func<double, double> Approximate(double[] argumentValues, double[] functionValues)
 	{
-		ArgumentNullException.ThrowIfNull(argumentValues);
-		ArgumentNullException.ThrowIfNull(functionValues);
-
 		return MathNet.Numerics.Fit.PolynomialFunc(argumentValues, functionValues, _order);
 	}
 }

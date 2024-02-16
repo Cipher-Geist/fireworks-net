@@ -69,7 +69,7 @@ public sealed class DynamicFireworksAlgorithm : StepperFireworksAlgorithmBase<Dy
 		ArgumentNullException.ThrowIfNull(fireworks, nameof(fireworks));
 
 		CalculateQualities(fireworks);
-		_state = new AlgorithmState(fireworks, 0, BestWorstFireworkSelector.SelectBest(fireworks));
+		_state = new AlgorithmState(fireworks, 0, BestWorstFireworkSelector?.SelectBest(fireworks));
 
 		DynamicExploder.InitializeCoreFirework(_state.Fireworks);
 	}

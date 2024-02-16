@@ -103,7 +103,7 @@ public abstract class DistanceBase : IDistance
 		int dimensionCounter = 0;
 		double[] coordinates = new double[_dimensions.Count()];
 
-		foreach (Dimension dimension in _dimensions)
+		foreach (var dimension in _dimensions)
 		{
 			coordinates[dimensionCounter] = solution.Coordinates[dimension];
 			dimensionCounter++;
