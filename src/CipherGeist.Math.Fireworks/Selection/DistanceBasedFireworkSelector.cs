@@ -24,8 +24,8 @@ public class DistanceBasedFireworkSelector : FireworkSelectorBase
 		int locationsNumber)
 			: base(locationsNumber)
 	{
-		_distanceCalculator = distanceCalculator ?? throw new ArgumentNullException(nameof(distanceCalculator));
-		_extremumFireworkSelector = extremumFireworkSelector ?? throw new ArgumentNullException(nameof(extremumFireworkSelector));
+		_distanceCalculator = distanceCalculator;
+		_extremumFireworkSelector = extremumFireworkSelector;
 	}
 
 	/// <summary>
@@ -45,10 +45,8 @@ public class DistanceBasedFireworkSelector : FireworkSelectorBase
 	/// the <paramref name="from"/> collection. Selected <see cref="Firework"/>s
 	/// are stored in the new collection, <paramref name="from"/> is not modified.
 	/// </summary>
-	/// <param name="from">A collection to select <see cref="Firework"/>s
-	/// from.</param>
-	/// <param name="numberToSelect">The number of <see cref="Firework"/>s
-	/// to select.</param>
+	/// <param name="from">A collection to select <see cref="Firework"/>s from.</param>
+	/// <param name="numberToSelect">The number of <see cref="Firework"/>s to select.</param>
 	/// <returns>
 	/// A subset of <see cref="Firework"/>s.
 	/// </returns>
@@ -58,7 +56,6 @@ public class DistanceBasedFireworkSelector : FireworkSelectorBase
 	/// </exception>
 	public override IEnumerable<Firework> SelectFireworks(IEnumerable<Firework> from, int numberToSelect)
 	{
-		ArgumentNullException.ThrowIfNull(from);
 		ArgumentOutOfRangeException.ThrowIfNegative(numberToSelect);
 		ArgumentOutOfRangeException.ThrowIfGreaterThan(numberToSelect, from.Count());
 
@@ -116,8 +113,6 @@ public class DistanceBasedFireworkSelector : FireworkSelectorBase
 	protected virtual IDictionary<Firework, double> CalculateDistances(IEnumerable<Firework> fireworks)
 	{
 		// TODO: Maybe there is more efficient way to calc distance between each and each points?
-		ArgumentNullException.ThrowIfNull(fireworks);
-
 		Debug.Assert(_distanceCalculator != null, "Distance calculator is null");
 
 		var distances = new Dictionary<Firework, double>(fireworks.Count());

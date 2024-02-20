@@ -49,7 +49,6 @@ public class BestFireworkSelector : FireworkSelectorBase
 	/// </exception>
 	public override IEnumerable<Firework> SelectFireworks(IEnumerable<Firework> from, int numberToSelect)
 	{
-		ArgumentNullException.ThrowIfNull(from);
 		ArgumentOutOfRangeException.ThrowIfNegative(numberToSelect);
 
 		// if (numberToSelect > from.Count())

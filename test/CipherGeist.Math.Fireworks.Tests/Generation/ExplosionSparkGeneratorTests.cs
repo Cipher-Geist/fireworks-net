@@ -24,7 +24,7 @@ public class ExplosionSparkGeneratorTests
 		string expectedParamName)
 	{
 		var actualException = Assert.Throws<ArgumentNullException>(() => new ExplosionSparkGenerator(dimensions, randomizer));
-		Assert.NotNull(actualException);
+		Assert.That(actualException, Is.Not.Null);
 		Assert.That(actualException.ParamName, Is.EqualTo(expectedParamName));
 	}
 }

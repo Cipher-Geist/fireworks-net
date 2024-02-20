@@ -3,7 +3,9 @@
 /// <summary>
 /// Fireworks algorithm with possibility of step-by-step execution.
 /// </summary>
-public interface IStepperFireworksAlgorithm : IFireworksAlgorithm
+/// <typeparam name="TSettings">The settings.</typeparam>
+public interface IStepperFireworksAlgorithm<TSettings> : IFireworksAlgorithm
+	where TSettings : class
 {
 	/// <summary>
 	/// Creates the initial algorithm state (before the run starts).
@@ -27,10 +29,10 @@ public interface IStepperFireworksAlgorithm : IFireworksAlgorithm
 	/// <summary>
 	/// Fired when any of the stopping conditions are met.
 	/// </summary>
-	event EventHandler<AlgorithmStateEventArgs> OnStopConditionSatisfied;
+	event EventHandler<AlgorithmStateEventArgs>? OnStopConditionSatisfied;
 
 	/// <summary>
 	/// Fired when a step of the IStepperFireworksAlgorithm is completed.
 	/// </summary>
-	event EventHandler<AlgorithmStateEventArgs> OnStepCompleted;
+	event EventHandler<AlgorithmStateEventArgs>? OnStepCompleted;
 }

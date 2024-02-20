@@ -14,15 +14,15 @@ public interface IFireworksAlgorithm
 	/// <summary>
 	/// Gets the problem to be solved by the algorithm.
 	/// </summary>
-	Problem ProblemToSolve { get; }
+	Problem? ProblemToSolve { get; }
 
 	/// <summary>
 	/// Gets the stop condition for the algorithm.
 	/// </summary>
-	IStopCondition StopCondition { get; }
+	IStopCondition? StopCondition { get; }
 
 	/// <summary>
-	/// Gets or sets the extremum firework selector.
+	/// Gets the extremum firework selector.
 	/// </summary>
-	IExtremumFireworkSelector? BestWorstFireworkSelector { get; set; }
+	IExtremumFireworkSelector? BestWorstFireworkSelector { get; }
 }

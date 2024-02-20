@@ -55,7 +55,7 @@ public class DynamicExploderTests
 		Assert.That(fireworks.Count(), Is.EqualTo(locationsNumber));
 
 		_dynamicExploder.InitializeCoreFirework(fireworks);
-		Assert.IsNotNull(_dynamicExploder.CoreFirework);
+		Assert.That(_dynamicExploder.CoreFirework, Is.Not.Null);
 		Assert.That(
 			_dynamicExploder.CoreFireworkAmplitutePreviousGeneration, 
 			Is.EqualTo(_dynamicExploder.Settings.ExplosionSparksMaximumAmplitude));

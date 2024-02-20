@@ -6,7 +6,7 @@
 /// <typeparam name="TSettings">Algorithm settings type.</typeparam>
 public abstract class StepperFireworksAlgorithmBase<TSettings> :
 	FireworksAlgorithmBase<TSettings>,
-	IStepperFireworksAlgorithm 
+	IStepperFireworksAlgorithm<TSettings>
 		where TSettings : class
 {
 	/// <summary>
@@ -20,10 +20,11 @@ public abstract class StepperFireworksAlgorithmBase<TSettings> :
 	/// <param name="problem">The problem to be solved by the algorithm.</param>
 	/// <param name="stopCondition">The stop condition for the algorithm.</param>
 	/// <param name="settings">The algorithm settings.</param>
+	/// <param name="logger">The logger.</param>
 	/// <exception cref="ArgumentNullException"> if <paramref name="problem"/> or <paramref name="stopCondition"/> 
 	/// or <paramref name="settings"/> is <c>null</c>.</exception>
-	protected StepperFireworksAlgorithmBase(Problem problem, IStopCondition stopCondition, TSettings settings)
-		: base(problem, stopCondition, settings)
+	protected StepperFireworksAlgorithmBase(Problem problem, IStopCondition stopCondition, TSettings settings, ILogger logger)
+		: base(problem, stopCondition, settings, logger)
 	{
 	}
 
@@ -86,7 +87,7 @@ public abstract class StepperFireworksAlgorithmBase<TSettings> :
 	/// <returns><c>true</c> if next step should be made. Otherwise <c>false</c>.</returns>
 	public bool ShouldStop()
 	{
-		bool stopConditionSatisfied = StopCondition.ShouldStop(_state!);
+		bool stopConditionSatisfied = StopCondition!.ShouldStop(_state!);
 		if (stopConditionSatisfied)
 		{
 			OnStopConditionSatisfied?.Invoke(this, new AlgorithmStateEventArgs(_state!));

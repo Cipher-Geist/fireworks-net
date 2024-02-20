@@ -27,19 +27,21 @@ public class Problem
 		Func<IDictionary<Dimension, double>, double> targetFunction,
 		ProblemTarget target)
 	{
-		ArgumentNullException.ThrowIfNull(dimensions);
+		ArgumentNullException.ThrowIfNull(dimensions, nameof(dimensions));
+		ArgumentNullException.ThrowIfNull(initialDimensionRanges, nameof(initialDimensionRanges));
+		ArgumentNullException.ThrowIfNull(targetFunction, nameof(targetFunction));
+
 		if (dimensions.Count == 0)
 		{
 			throw new ArgumentException(string.Empty, nameof(dimensions));
 		}
 
-		ArgumentNullException.ThrowIfNull(initialDimensionRanges);
 		if (initialDimensionRanges.Count != dimensions.Count)
 		{
 			throw new ArgumentException(string.Empty, nameof(initialDimensionRanges));
 		}
 
-		foreach (Dimension variable in dimensions)
+		foreach (var variable in dimensions)
 		{
 			if (!initialDimensionRanges.ContainsKey(variable))
 			{
@@ -49,7 +51,7 @@ public class Problem
 
 		Dimensions = dimensions;
 		InitialDimensionRanges = initialDimensionRanges;
-		_targetFunction = targetFunction ?? throw new ArgumentNullException(nameof(targetFunction));
+		_targetFunction = targetFunction;
 		Target = target;
 	}
 
@@ -116,8 +118,6 @@ public class Problem
 	/// <exception cref="ArgumentNullException">if <paramref name="coordinateValues"/> is <c>null</c>.</exception>
 	public virtual double CalculateQuality(IDictionary<Dimension, double> coordinateValues)
 	{
-		ArgumentNullException.ThrowIfNull(coordinateValues);
-
 		Debug.Assert(_targetFunction != null, "Target function is null");
 
 		OnQualityCalculating(new QualityCalculatingEventArgs(coordinateValues));
@@ -136,8 +136,6 @@ public class Problem
 	/// <exception cref="ArgumentNullException">if <paramref name="dimensions"/> is <c>null</c>.</exception>
 	public static IDictionary<Dimension, Interval> CreateDefaultInitialRanges(IList<Dimension> dimensions)
 	{
-		ArgumentNullException.ThrowIfNull(dimensions);
-
 		var initialRanges = new Dictionary<Dimension, Interval>(dimensions.Count);
 		foreach (Dimension dimension in dimensions)
 		{

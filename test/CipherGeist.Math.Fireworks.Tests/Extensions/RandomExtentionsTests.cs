@@ -54,7 +54,7 @@ public class RandomExtentionsTests
 	{
 		var actualException = Assert.Throws<ArgumentOutOfRangeException>(() => random.NextDouble(minInclusive, intervalLength));
 
-		Assert.NotNull(actualException);
+		Assert.That(actualException, Is.Not.Null);
 		Assert.That(actualException.ParamName, Is.EqualTo(expectedParamName));
 	}
 
@@ -68,7 +68,7 @@ public class RandomExtentionsTests
 	{
 		var actualException = Assert.Throws<ArgumentOutOfRangeException>(() => random.NextInt32s(neededValuesNumber, minInclusive, maxExclusive));
 
-		Assert.NotNull(actualException);
+		Assert.That(actualException, Is.Not.Null);
 		Assert.That(actualException.ParamName, Is.EqualTo(expectedParamName));
 	}
 
@@ -83,7 +83,7 @@ public class RandomExtentionsTests
 		var actualException = Assert.Throws<ArgumentOutOfRangeException>(() =>
 			random.NextUniqueInt32s(neededValuesNumber, minInclusive, maxExclusive));
 
-		Assert.NotNull(actualException);
+		Assert.That(actualException, Is.Not.Null);
 		Assert.That(actualException.ParamName, Is.EqualTo(expectedParamName));
 	}
 }

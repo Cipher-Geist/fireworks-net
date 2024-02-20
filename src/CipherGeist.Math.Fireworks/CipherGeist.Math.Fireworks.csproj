@@ -1,34 +1,60 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <ApplicationIcon>cipher-geist-v0.ico</ApplicationIcon>
-    <PackageIcon>cipher-geist-v0.png</PackageIcon>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>net8.0</TargetFrameworks>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<ApplicationIcon>cipher-geist-v0.ico</ApplicationIcon>
+		<PackageIcon>cipher-geist-v0.png</PackageIcon>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Content Include="cipher-geist-v0.ico" />
-  </ItemGroup>
+	<PropertyGroup>
+		<AssemblyName>CipherGeist.Math.Fireworks</AssemblyName>
+		<RootNamespace>CipherGeist.Math.Fireworks</RootNamespace>
+		<Company>Cipher Geist Ltd</Company>
+		<Authors>Camuvingian</Authors>
+		<Copyright>Copyright © Cipher Geist Ltd 2024</Copyright>
+		<Product>CipherGeist.Math.Fireworks 1.0</Product>
+		<Version>1.0.0.0</Version>
+		<AssemblyVersion>1.0.0.0</AssemblyVersion>
+		<InformationalVersion></InformationalVersion>
+		<Title>Cipher Geist Fireworks Optimizer</Title>
+		<Description>Fireworks is a .NET implementation of swarm intelligence Fireworks Algorithm for Optimization (FWA) and its variations.</Description>
+		<PackageProjectUrl>https://github.com/Cipher-Geist/fireworks-net</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/Cipher-Geist/fireworks-net</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Include="..\..\.editorconfig" Link=".editorconfig" />
-  </ItemGroup>
+	<ItemGroup>
+	  <None Remove="cipher-geist-v0.png" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="MathNet.Numerics" Version="5.0.0" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
+	<ItemGroup>
+		<Content Include="cipher-geist-v0.ico">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Update="cipher-geist-v0.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="..\..\.editorconfig" Link=".editorconfig" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="MathNet.Numerics" Version="5.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
+		<PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Resource Include="cipher-geist-v0.png">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Resource>
+	</ItemGroup>
 
 </Project>

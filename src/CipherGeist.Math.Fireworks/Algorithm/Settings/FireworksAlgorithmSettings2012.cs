@@ -9,7 +9,9 @@ public class FireworksAlgorithmSettings2012 : FireworksAlgorithmSettings
 	/// <summary>
 	/// Initializes a new instance of the <see cref="FireworksAlgorithmSettings2012"/> class.
 	/// </summary>
-	public FireworksAlgorithmSettings2012() { }
+	public FireworksAlgorithmSettings2012()
+	{ 
+	}
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="FireworksAlgorithmSettings2012"/> class.

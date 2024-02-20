@@ -18,14 +18,17 @@ public sealed class DynamicFireworksAlgorithm : StepperFireworksAlgorithmBase<Dy
 	/// <param name="problem">The problem to be solved by the algorithm.</param>
 	/// <param name="stopCondition">The stop condition for the algorithm.</param>
 	/// <param name="settings">The algorithm settings.</param>
-	public DynamicFireworksAlgorithm(Problem problem, IStopCondition stopCondition, DynamicFireworksAlgorithmSettings settings)
-		: base(problem, stopCondition, settings)
+	/// <param name="logger">The logger.</param>
+	public DynamicFireworksAlgorithm(
+		Problem problem, 
+		IStopCondition stopCondition, 
+		DynamicFireworksAlgorithmSettings settings, 
+		ILogger<DynamicFireworksAlgorithm> logger)
+			: base(problem, stopCondition, settings, logger)
 	{
 		Randomizer = new DefaultRandom();
 
-		BestWorstFireworkSelector = new ExtremumFireworkSelector(problem.Target);
 		InitialSparkGenerator = new InitialSparkGenerator(problem.Dimensions, problem.InitialDimensionRanges, Randomizer);
-
 		ExplosionSparkGenerator = new ExplosionSparkGenerator2012(problem.Dimensions, Randomizer);
 
 		var distribution = new NormalDistribution(NORMAL_DISTRIBUTION_MEAN, NORMAL_DISTRIBUTION_STD_DEV);
@@ -69,7 +72,7 @@ public sealed class DynamicFireworksAlgorithm : StepperFireworksAlgorithmBase<Dy
 		ArgumentNullException.ThrowIfNull(fireworks, nameof(fireworks));
 
 		CalculateQualities(fireworks);
-		_state = new AlgorithmState(fireworks, 0, BestWorstFireworkSelector?.SelectBest(fireworks));
+		_state = new AlgorithmState(fireworks, 0, BestWorstFireworkSelector.SelectBest(fireworks));
 
 		DynamicExploder.InitializeCoreFirework(_state.Fireworks);
 	}
@@ -87,7 +90,7 @@ public sealed class DynamicFireworksAlgorithm : StepperFireworksAlgorithmBase<Dy
 
 		int stepNumber = _state!.StepNumber + 1;
 
-		foreach (Firework firework in _state.Fireworks)
+		foreach (var firework in _state.Fireworks)
 		{
 			var dynamicExplosion = DynamicExploder.Explode(firework, _state.Fireworks, stepNumber);
 			var fireworkExplosionSparks = ExplosionSparkGenerator.CreateSparks(dynamicExplosion);
@@ -112,7 +115,7 @@ public sealed class DynamicFireworksAlgorithm : StepperFireworksAlgorithmBase<Dy
 
 		_state.Fireworks = selectedFireworks;
 		_state.StepNumber = stepNumber;
-		_state.BestSolution = BestWorstFireworkSelector?.SelectBest(selectedFireworks);
+		_state.BestSolution = BestWorstFireworkSelector.SelectBest(selectedFireworks);
 
 		RaiseStepCompleted(new AlgorithmStateEventArgs(ProblemToSolve, _state));
 	}
@@ -126,8 +129,8 @@ public sealed class DynamicFireworksAlgorithm : StepperFireworksAlgorithmBase<Dy
 	/// <returns><c>true</c> if necessary replace <paramref name="worst"/> with <paramref name="elite"/>.</returns>
 	public bool ShouldReplaceWorstWithElite(Firework worst, Firework elite)
 	{
-		return ProblemToSolve.Target == ProblemTarget.Minimum 
-			? worst.Quality.IsGreater(elite.Quality) 
+		return ProblemToSolve.Target == ProblemTarget.Minimum
+			? worst.Quality.IsGreater(elite.Quality)
 			: worst.Quality.IsLess(elite.Quality);
 	}
 	#endregion // Internal Steps.

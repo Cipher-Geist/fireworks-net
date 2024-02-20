@@ -42,7 +42,8 @@ public class InitialSparkGeneratorTests
 		string expectedParamName)
 	{
 		var actualException = Assert.Throws<ArgumentNullException>(() => new InitialSparkGenerator(dimensions, initialRandes, randomizer));
-		Assert.NotNull(actualException);
+		
+		Assert.That(actualException, Is.Not.Null);
 		Assert.That(actualException.ParamName, Is.EqualTo(expectedParamName));
 	}
 }

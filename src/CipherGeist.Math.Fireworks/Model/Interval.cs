@@ -37,9 +37,12 @@ public sealed class Interval : IEquatable<Interval>, IFormattable
 
 		Minimum = minimum;
 		Maximum = maximum;
+
 		Length = System.Math.Abs(Maximum - Minimum);
+
 		IsMinimumOpen = double.IsNegativeInfinity(Minimum) ? true : isMinimumOpen;
 		IsMaximumOpen = double.IsPositiveInfinity(Maximum) ? true : isMaximumOpen;
+
 		IsOpen = IsMinimumOpen && IsMaximumOpen;
 
 		_cachedStringFormat = (IsMinimumOpen ? "(" : "[") + "{0}, {1}" + (IsMaximumOpen ? ")" : "]");

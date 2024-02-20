@@ -41,7 +41,6 @@ public abstract class EliteSparkGenerator : SparkGeneratorBase<EliteExplosion>
 	/// <exception cref="ArgumentOutOfRangeException"> if <paramref name="birthOrder"/> is less than zero.</exception>
 	public override Firework CreateSpark(EliteExplosion explosion, int birthOrder)
 	{
-		ArgumentNullException.ThrowIfNull(explosion);
 		ArgumentOutOfRangeException.ThrowIfNegative(birthOrder);
 
 		var fitnessLandscapes = ApproximateFitnessLandscapes(explosion.Fireworks);
@@ -66,13 +65,11 @@ public abstract class EliteSparkGenerator : SparkGeneratorBase<EliteExplosion>
 	/// <exception cref="ArgumentNullException"> if <paramref name="fireworks"/> is <c>null</c>.</exception>
 	protected virtual IDictionary<Dimension, Func<double, double>> ApproximateFitnessLandscapes(IEnumerable<Firework> fireworks)
 	{
-		ArgumentNullException.ThrowIfNull(fireworks);
-
 		var currentFireworks = new List<Firework>(fireworks);
-		double[] qualities = new double[currentFireworks.Count];
+		var qualities = new double[currentFireworks.Count];
 
 		int current = 0;
-		foreach (Firework firework in currentFireworks)
+		foreach (var firework in currentFireworks)
 		{
 			qualities[current] = firework.Quality;
 			current++;
@@ -82,7 +79,7 @@ public abstract class EliteSparkGenerator : SparkGeneratorBase<EliteExplosion>
 		foreach (var dimension in _dimensions)
 		{
 			current = 0;
-			double[] coordinates = new double[currentFireworks.Count];
+			var coordinates = new double[currentFireworks.Count];
 
 			foreach (var firework in currentFireworks)
 			{

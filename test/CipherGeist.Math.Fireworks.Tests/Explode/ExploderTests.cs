@@ -16,10 +16,12 @@ public class ExploderTests
 	{
 		string expectedParamName = "currentStepNumber";
 
-		ArgumentOutOfRangeException actualException = Assert.Throws<ArgumentOutOfRangeException>(
-			() => _exploder.Explode(new Firework(FireworkType.Initial, 1, 0), Enumerable.Empty<Firework>(), -1));
+		var actualException = Assert.Throws<ArgumentOutOfRangeException>(() =>
+		{
+			_exploder.Explode(new Firework(FireworkType.Initial, 1, 0), Enumerable.Empty<Firework>(), -1);
+		});
 
-		Assert.NotNull(actualException);
+		Assert.That(actualException, Is.Not.Null);
 		Assert.That(actualException.ParamName, Is.EqualTo(expectedParamName));
 	}
 
@@ -28,10 +30,12 @@ public class ExploderTests
 	{
 		string expectedParamName = "currentStepNumber";
 
-		var actualException = Assert.Throws<ArgumentOutOfRangeException>(
-			() => _exploder.Explode(new Firework(FireworkType.Initial, 1, 0), Enumerable.Empty<Firework>(), 0));
+		var actualException = Assert.Throws<ArgumentOutOfRangeException>(() =>
+		{
+			_exploder.Explode(new Firework(FireworkType.Initial, 1, 0), Enumerable.Empty<Firework>(), 0);
+		});
 
-		Assert.NotNull(actualException);
+		Assert.That(actualException, Is.Not.Null);
 		Assert.That(actualException.ParamName, Is.EqualTo(expectedParamName));
 	}
 }

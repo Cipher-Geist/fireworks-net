@@ -1,25 +1,34 @@
-﻿namespace CipherGeist.Math.Fireworks.Algorithm;
+﻿using Microsoft.Extensions.Logging;
+
+namespace CipherGeist.Math.Fireworks.Algorithm;
 
 /// <summary>
 /// Base class for Fireworks Algorithm implementation.
 /// </summary>
 /// <typeparam name="TSettings">Algorithm settings type.</typeparam>
 public abstract class FireworksAlgorithmBase<TSettings> : IFireworksAlgorithm
-    where TSettings : class
+	where TSettings : class
 {
+	protected ILogger _logger;
+
 	/// <summary>
-	/// Initializes a new instance of the <see cref="FireworksAlgorithmBase{TSettings}"/> class.
+	/// Initializes the algorith.
 	/// </summary>
 	/// <param name="problem">The problem to be solved by the algorithm.</param>
 	/// <param name="stopCondition">The stop condition for the algorithm.</param>
 	/// <param name="settings">The algorithm settings.</param>
-	/// <exception cref="ArgumentNullException"> if <paramref name="problem"/> or <paramref name="stopCondition"/> 
+	/// <param name="logger">A logger.</param>
+	/// <exception cref="ArgumentNullException">If <paramref name="problem"/> or <paramref name="stopCondition"/> 
 	/// or <paramref name="settings"/> is <c>null</c>.</exception>
-	protected FireworksAlgorithmBase(Problem problem, IStopCondition stopCondition, TSettings settings)
+	public FireworksAlgorithmBase(Problem problem, IStopCondition stopCondition, TSettings settings, ILogger logger)
 	{
 		ProblemToSolve = problem ?? throw new ArgumentNullException(nameof(problem));
 		StopCondition = stopCondition ?? throw new ArgumentNullException(nameof(stopCondition));
 		Settings = settings ?? throw new ArgumentNullException(nameof(settings));
+		
+		_logger = logger;
+
+		BestWorstFireworkSelector = new ExtremumFireworkSelector(problem.Target);
 	}
 
 	/// <summary>
@@ -63,9 +72,9 @@ public abstract class FireworksAlgorithmBase<TSettings> : IFireworksAlgorithm
 	}
 
 	/// <summary>
-	/// Gets or sets the extremum firework selector.
+	/// Gets the extremum firework selector.
 	/// </summary>
-	public IExtremumFireworkSelector? BestWorstFireworkSelector { get; set; }
+	public IExtremumFireworkSelector BestWorstFireworkSelector { get; }
 
 	/// <summary>
 	/// Gets the problem to be solved by the algorithm.

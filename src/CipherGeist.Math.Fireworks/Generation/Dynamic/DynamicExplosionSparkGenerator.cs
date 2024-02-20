@@ -23,8 +23,8 @@ public class DynamicExplosionSparkGenerator : SparkGeneratorBase<FireworkExplosi
 	/// or <paramref name="randomizer"/> is <c>null</c>.</exception>
 	public DynamicExplosionSparkGenerator(IEnumerable<Dimension> dimensions, System.Random randomizer)
 	{
-		_dimensions = dimensions ?? throw new ArgumentNullException(nameof(dimensions));
-		_randomizer = randomizer ?? throw new ArgumentNullException(nameof(randomizer));
+		_dimensions = dimensions;
+		_randomizer = randomizer;
 	}
 
 	/// <summary>
@@ -37,19 +37,18 @@ public class DynamicExplosionSparkGenerator : SparkGeneratorBase<FireworkExplosi
 	/// <exception cref="ArgumentOutOfRangeException"> if <paramref name="birthOrder"/> is less than zero.</exception>
 	public override Firework CreateSpark(FireworkExplosion explosion, int birthOrder)
 	{
-		ArgumentNullException.ThrowIfNull(explosion);
 		ArgumentOutOfRangeException.ThrowIfNegative(birthOrder);
 
 		var spark = new Firework(GeneratedSparkType, explosion.StepNumber, birthOrder, explosion.ParentFirework);
 		ArgumentNullException.ThrowIfNull(spark.Coordinates, nameof(spark.Coordinates));
 
 		// Mapping rule.
-		foreach (Dimension dimension in _dimensions)
+		foreach (var dimension in _dimensions)
 		{
 			// Coin flip.
 			if (_randomizer.NextBoolean())
 			{
-				double offsetDisplacement = explosion.Amplitude * 
+				var offsetDisplacement = explosion.Amplitude * 
 					_randomizer.NextDouble(
 						OFFSET_DISPLACEMENT_RANDOM_MIN, 
 						OFFSET_DISPLACEMENT_RANDOM_MAX);
@@ -69,5 +68,8 @@ public class DynamicExplosionSparkGenerator : SparkGeneratorBase<FireworkExplosi
 	/// <summary>
 	/// Gets the type of the generated spark.
 	/// </summary>
-	public override FireworkType GeneratedSparkType { get { return FireworkType.ExplosionSpark; } }
+	public override FireworkType GeneratedSparkType 
+	{ 
+		get { return FireworkType.ExplosionSpark; } 
+	}
 }

@@ -32,7 +32,7 @@ public class EuclideanDistance : DistanceBase
 	{
 		if (first.Length != second.Length)
 		{
-			throw new CoordinateLengthMismatchException();
+			throw new CoordinateLengthMismatchException("Coordinate dimensions must match");
 		}
 
 		return MathNet.Numerics.Distance.Euclidean(first, second);

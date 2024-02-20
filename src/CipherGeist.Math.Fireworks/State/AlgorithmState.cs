@@ -6,9 +6,9 @@
 /// <remarks>This class is not thread-safe.</remarks>
 public class AlgorithmState : IAlgorithmState
 {
-	private IEnumerable<Firework> _fireworks;
-	private int _stepNumber;
-	private Solution _bestSolution;
+	private IEnumerable<Firework> _fireworks = [];
+	private int _stepNumber = 0;
+	private Solution _bestSolution = new Solution(0.001);
 
 	/// <summary>
 	/// Initializes a new instance of <see cref="AlgorithmState"/>.
@@ -19,9 +19,9 @@ public class AlgorithmState : IAlgorithmState
 	public AlgorithmState(IEnumerable<Firework> fireworks, int stepNumber, Solution bestSolution)
 	{
 		Id = new TId();
-		Fireworks = fireworks ?? [];
+		Fireworks = fireworks;
 		StepNumber = stepNumber;
-		BestSolution = bestSolution ?? new Solution(0.001);
+		BestSolution = bestSolution;
 	}
 
 	/// <summary>

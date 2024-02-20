@@ -18,4 +18,5 @@ global using CipherGeist.Math.Fireworks.Selection.Extremum;
 global using CipherGeist.Math.Fireworks.Solving;
 global using CipherGeist.Math.Fireworks.State;
 global using CipherGeist.Math.Fireworks.StopConditions;
+global using Microsoft.Extensions.Logging;
 global using System.Diagnostics;

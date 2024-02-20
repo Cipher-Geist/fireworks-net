@@ -22,15 +22,14 @@ public class Firework : Solution
 	/// <exception cref="ArgumentOutOfRangeException"> if <paramref name="birthStepNumber"/> or <paramref name="birthOrder"/> is less than zero.</exception>
 	/// <exception cref="ArgumentNullException"> if <paramref name="coordinates"/> is <c>null</c>.</exception>
 	public Firework(FireworkType fireworkType, int birthStepNumber, int birthOrder, Firework? parentFirework)
-		: base(parentFirework == null ? new Dictionary<Dimension, double>() : parentFirework.Coordinates, double.NaN)
+		: base(
+			parentFirework == null 
+				? new Dictionary<Dimension, double>() 
+				: parentFirework.Coordinates, 
+			double.NaN)
 	{
 		ArgumentOutOfRangeException.ThrowIfNegative(birthStepNumber);
 		ArgumentOutOfRangeException.ThrowIfNegative(birthOrder);
-
-		if (Coordinates == null)
-		{
-			throw new ArgumentNullException(nameof(Coordinates));
-		}
 
 		Id = new TId();
 		FireworkType = fireworkType;
@@ -65,7 +64,6 @@ public class Firework : Solution
 	{
 		ArgumentOutOfRangeException.ThrowIfNegative(birthStepNumber);
 		ArgumentOutOfRangeException.ThrowIfNegative(birthOrder);
-		ArgumentNullException.ThrowIfNull(coordinates);
 
 		Id = new TId();
 		FireworkType = fireworkType;

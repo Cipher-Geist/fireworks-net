@@ -1,96 +1,81 @@
-﻿using CipherGeist.Math.Fireworks.Model.Fireworks;
-using CipherGeist.Math.Fireworks.Selection;
-using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿namespace CipherGeist.Math.Fireworks.Tests.Selection;
 
-namespace CipherGeist.Math.Fireworks.Tests.Selection
+public class RandomSelectorTests
 {
-	public class RandomSelectorTests
+	private readonly int _samplingNumber;
+	private readonly int _countFireworks;
+	private readonly System.Random _randomizer;
+	private readonly IEnumerable<Firework> _allFireworks;
+	private readonly RandomFireworkSelector _randomSelector;
+
+	public RandomSelectorTests()
 	{
-		private readonly int _samplingNumber;
-		private readonly int _countFireworks;
-		private readonly System.Random _randomizer;
-		private readonly IEnumerable<Firework> _allFireworks;
-		private readonly RandomFireworkSelector _randomSelector;
+		_samplingNumber = SelectorTestsHelper.SamplingNumber;
+		_countFireworks = SelectorTestsHelper.CountFireworks;
+		_randomizer = new System.Random();
+		_allFireworks = SelectorTestsHelper.Fireworks;
+		_randomSelector = new RandomFireworkSelector(_randomizer, _samplingNumber);
+	}
 
-		public RandomSelectorTests()
+	[Test]
+	public void SelectFireworksPresentAllParamReturnsExistsFireworks()
+	{
+		var resultingFireworks = _randomSelector.SelectFireworks(_allFireworks, _samplingNumber);
+		foreach (var firework in resultingFireworks)
 		{
-			_samplingNumber = SelectorTestsHelper.SamplingNumber;
-			_countFireworks = SelectorTestsHelper.CountFireworks;
-			_randomizer = new System.Random();
-			_allFireworks = SelectorTestsHelper.Fireworks;
-			_randomSelector = new RandomFireworkSelector(_randomizer, _samplingNumber);
+			Assert.That(_allFireworks, Does.Contain(firework));
 		}
+	}
 
-		[Test]
-		public void SelectFireworksPresentAllParamReturnsExistsFireworks()
+	[Test]
+	public void SelectFireworksPresentAllParamReturnsNonEqualCollections()
+	{
+		var firstResultingFireworks = _randomSelector.SelectFireworks(_allFireworks, _samplingNumber);
+		var secondResultingFireworks = _randomSelector.SelectFireworks(_allFireworks, _samplingNumber);
+
+		Assert.That(secondResultingFireworks, Is.Not.SameAs(firstResultingFireworks));
+		Assert.That(secondResultingFireworks, Is.Not.EqualTo(firstResultingFireworks));
+	}
+
+	[Test]
+	public void SelectFireworksNegativeNumberAs2ndParamExceptionThrown()
+	{
+		var actualException = Assert.Throws<ArgumentOutOfRangeException>(() =>
 		{
-			var resultingFireworks = _randomSelector.SelectFireworks(_allFireworks, _samplingNumber);
-			foreach (Firework firework in resultingFireworks)
-				Assert.That(_allFireworks, Does.Contain(firework));
-		}
+			_randomSelector.SelectFireworks(_allFireworks, -1);
+		});
 
-		[Test]
-		public void SelectFireworksPresentAllParamReturnsNonEqualCollections()
+		Assert.That(actualException, Is.Not.Null);
+		Assert.That(actualException.ParamName, Is.EqualTo("numberToSelect"));
+	}
+
+	[Test]
+	public void SelectFireworksGreatNumberAs2ndParamExceptionThrown()
+	{
+		var actualException = Assert.Throws<ArgumentOutOfRangeException>(() =>
 		{
-			var firstResultingFireworks = _randomSelector.SelectFireworks(_allFireworks, _samplingNumber);
-			var secondResultingFireworks = _randomSelector.SelectFireworks(_allFireworks, _samplingNumber);
+			_randomSelector.SelectFireworks(_allFireworks, _countFireworks + 1);
+		});
 
-			Assert.AreNotSame(firstResultingFireworks, secondResultingFireworks);
-			Assert.AreNotEqual(firstResultingFireworks, secondResultingFireworks);
-		}
+		Assert.That(actualException, Is.Not.Null);
+		Assert.That(actualException.ParamName, Is.EqualTo("numberToSelect"));
+	}
 
-		[Test]
-		public void SelectFireworksNullAs1stParamExceptionThrown()
-		{
-			string expectedParamName = "from";
-			IEnumerable<Firework> currentFireworks = null;
+	[Test]
+	public void SelectFireworksCountFireworksEqual2ndParamReturnsEqualFireworks()
+	{
+		var resultingFireworks = _randomSelector.SelectFireworks(_allFireworks, _countFireworks);
 
-			ArgumentNullException actualException = Assert.Throws<ArgumentNullException>(() =>
-				_randomSelector.SelectFireworks(currentFireworks, _samplingNumber));
+		Assert.That(resultingFireworks, Is.Not.SameAs(_allFireworks));
+		Assert.That(resultingFireworks, Is.EqualTo(_allFireworks));
+	}
 
-			Assert.NotNull(actualException);
-			Assert.AreEqual(expectedParamName, actualException.ParamName);
-		}
+	[Test]
+	public void SelectFireworksZeroAs2ndParamReturnsEmptyCollectionFireworks()
+	{
+		var resultingFireworks = _randomSelector.SelectFireworks(_allFireworks, 0);
 
-		[Test]
-		public void SelectFireworksNegativeNumberAs2ndParamExceptionThrown()
-		{
-			ArgumentOutOfRangeException actualException = Assert.Throws<ArgumentOutOfRangeException>(() =>
-				_randomSelector.SelectFireworks(_allFireworks, -1));
-
-			Assert.NotNull(actualException);
-			Assert.AreEqual("numberToSelect", actualException.ParamName);
-		}
-
-		[Test]
-		public void SelectFireworksGreatNumberAs2ndParamExceptionThrown()
-		{
-			ArgumentOutOfRangeException actualException = Assert.Throws<ArgumentOutOfRangeException>(() =>
-				_randomSelector.SelectFireworks(_allFireworks, _countFireworks + 1));
-
-			Assert.NotNull(actualException);
-			Assert.AreEqual("numberToSelect", actualException.ParamName);
-		}
-
-		[Test]
-		public void SelectFireworksCountFireworksEqual2ndParamReturnsEqualFireworks()
-		{
-			IEnumerable<Firework> resultingFireworks = _randomSelector.SelectFireworks(_allFireworks, _countFireworks);
-
-			Assert.AreNotSame(_allFireworks, resultingFireworks);
-			Assert.AreEqual(_allFireworks, resultingFireworks);
-		}
-
-		[Test]
-		public void SelectFireworksZeroAs2ndParamReturnsEmptyCollectionFireworks()
-		{
-			IEnumerable<Firework> resultingFireworks = _randomSelector.SelectFireworks(_allFireworks, 0);
-
-			Assert.AreNotSame(Enumerable.Empty<Firework>(), resultingFireworks);
-			Assert.AreEqual(Enumerable.Empty<Firework>(), resultingFireworks);
-		}
+		Assert.That(resultingFireworks, Is.Not.SameAs(Enumerable.Empty<Firework>()));
+		Assert.That(resultingFireworks, Is.EqualTo(Enumerable.Empty<Firework>()));
 	}
 }

@@ -18,8 +18,8 @@ public class DifferentiationTests
 	{
 		double expectedResult = 6;
 
-		Func<double, double> resultingFunc = differentiator.Differentiate(targetFunc);
-		double actualResult = resultingFunc(inputValue);
+		var resultingFunc = differentiator.Differentiate(targetFunc);
+		var actualResult = resultingFunc(inputValue);
 
 		Assert.That(actualResult, Is.EqualTo(expectedResult));
 	}
@@ -29,8 +29,8 @@ public class DifferentiationTests
 	{
 		double expectedResult = 5;
 
-		Func<double, double> resultingFunc = differentiator.Differentiate(targetFunc);
-		double actualResult = resultingFunc(inputValue);
+		var resultingFunc = differentiator.Differentiate(targetFunc);
+		var actualResult = resultingFunc(inputValue);
 
 		Assert.That(actualResult, Is.Not.EqualTo(expectedResult));
 	}
@@ -41,9 +41,9 @@ public class DifferentiationTests
 		string expectedParamName = "func";
 		Func<double, double>? func = null;
 
-		ArgumentNullException actualException = Assert.Throws<ArgumentNullException>(() => differentiator.Differentiate(func));
+		var actualException = Assert.Throws<ArgumentNullException>(() => differentiator.Differentiate(func));
 
-		Assert.NotNull(actualException);
+		Assert.That(actualException, Is.Not.Null);
 		Assert.That(actualException.ParamName, Is.EqualTo(expectedParamName));
 	}
 }

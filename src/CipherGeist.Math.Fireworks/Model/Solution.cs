@@ -14,7 +14,7 @@ public class Solution : IEquatable<Solution>, ISolution
 	/// <param name="quality">Solution quality (value of target function).</param>
 	public Solution(IDictionary<Dimension, double>? coordinates, double quality)
 	{
-		Coordinates = coordinates ?? new Dictionary<Dimension, double>();
+		Coordinates = coordinates;
 		Quality = quality;
 	}
 
@@ -24,7 +24,7 @@ public class Solution : IEquatable<Solution>, ISolution
 	/// </summary>
 	/// <param name="coordinates">Solution coordinates in problem space.</param>
 	/// <remarks><see cref="Quality"/> is set to <see cref="double.NaN"/>.</remarks>
-	public Solution(IDictionary<Dimension, double> coordinates)
+	public Solution(IDictionary<Dimension, double>? coordinates)
 		: this(coordinates, double.NaN)
 	{
 	}
@@ -50,16 +50,9 @@ public class Solution : IEquatable<Solution>, ISolution
 	/// value; otherwise <c>false</c>.</returns>
 	public static bool operator ==(Solution? left, Solution? right)
 	{
-		// If both are null, or both are same instance, return true.
-		if (ReferenceEquals(left, right))
+		if (left is null)
 		{
-			return true;
-		}
-
-		// If one is null, but not both, return false.
-		if (left is null || right is null)
-		{
-			return false;
+			return right is null;
 		}
 
 		// Return true if the fields for both objects are equal.
@@ -75,7 +68,12 @@ public class Solution : IEquatable<Solution>, ISolution
 	/// value; otherwise <c>false</c>.</returns>
 	public static bool operator !=(Solution? left, Solution? right)
 	{
-		return !(left == right);
+		if (left is null)
+		{
+			return right is object;
+		}
+
+		return !left.Equals(right);
 	}
 	#endregion // Comparison Operators.
 
@@ -163,7 +161,7 @@ public class Solution : IEquatable<Solution>, ISolution
 	/// Gets or sets solution coordinates in problem space.
 	/// TODO: Think of replacing Dictionary with some derived class, like CoordinateDictionary.
 	/// </summary>
-	public IDictionary<Dimension, double> Coordinates { get; protected set; }
+	public IDictionary<Dimension, double>? Coordinates { get; protected set; }
 
 	/// <summary>
 	/// Gets or sets solution quality (value of target function).

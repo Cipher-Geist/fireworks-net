@@ -8,7 +8,9 @@ public class DynamicFireworksAlgorithmSettings : FireworksAlgorithmSettings2012
 	/// <summary>
 	/// Initializes a new instance of the <see cref="DynamicFireworksAlgorithmSettings"/> class.
 	/// </summary>
-	public DynamicFireworksAlgorithmSettings() { }
+	public DynamicFireworksAlgorithmSettings() 
+	{ 
+	}
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="DynamicFireworksAlgorithmSettings"/> class.

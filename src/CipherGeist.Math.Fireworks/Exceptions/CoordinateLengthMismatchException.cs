@@ -3,7 +3,7 @@
 /// <summary>
 /// Exception thrown when two coordinates for the same solution have differing lengths.
 /// </summary>
-internal class CoordinateLengthMismatchException : Exception
+public class CoordinateLengthMismatchException : Exception
 {
 	/// <summary>
 	/// Initializes a new instance of the <see cref="CoordinateLengthMismatchException"/> class.

@@ -49,18 +49,7 @@ public class EliteSparkGeneratorTests
 		var actualException = Assert.Throws<ArgumentNullException>(
 			() => new TestEliteStrategyGenerator(dimensions, polynomialFit));
 
-		Assert.NotNull(actualException);
-		Assert.That(actualException.ParamName, Is.EqualTo(expectedParamName));
-	}
-
-	[Theory]
-	[TestCase(null, "fireworks")]
-	public void ApproximateFitnessLandscapesNegativeParamsArgumentNullExceptionThrown(IEnumerable<Firework> fireworks, string expectedParamName)
-	{
-		var actualException = Assert.Throws<ArgumentNullException>(
-			() => GetTestEliteStrategyGenerator().TestApproximateFitnessLandscapes(fireworks));
-
-		Assert.NotNull(actualException);
+		Assert.That(actualException, Is.Not.Null);
 		Assert.That(actualException.ParamName, Is.EqualTo(expectedParamName));
 	}
 }

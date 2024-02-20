@@ -29,10 +29,12 @@ public class LS2EliteSparkGeneratorTests
 		ISolver solver,
 		string expectedParamName)
 	{
-		ArgumentNullException actualException = Assert.Throws<ArgumentNullException>(
-			() => new LS2EliteSparkGenerator(dimensions, polynomialFit, differentiator, solver));
+		var actualException = Assert.Throws<ArgumentNullException>(() =>
+		{
+			new LS2EliteSparkGenerator(dimensions, polynomialFit, differentiator, solver);
+		});
 
-		Assert.NotNull(actualException);
-		Assert.AreEqual(expectedParamName, actualException.ParamName);
+		Assert.That(actualException, Is.Not.Null);
+		Assert.That(actualException.ParamName, Is.EqualTo(expectedParamName));
 	}
 }

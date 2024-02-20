@@ -26,7 +26,7 @@ public class LS1EliteSparkGeneratorTests
 		var actualException = Assert.Throws<ArgumentNullException>(
 			() => new LS1EliteSparkGenerator(dimensions, polynomialFit));
 
-		Assert.NotNull(actualException);
+		Assert.That(actualException, Is.Not.Null);
 		Assert.That(actualException.ParamName, Is.EqualTo(expectedParamName));
 	}
 }

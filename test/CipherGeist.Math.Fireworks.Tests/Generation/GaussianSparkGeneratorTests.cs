@@ -42,7 +42,7 @@ public class GaussianSparkGeneratorTests
 		var actualException = Assert.Throws<ArgumentNullException>(() =>
 			new GaussianSparkGenerator(dimensions, distribution, randomizer));
 
-		Assert.NotNull(actualException);
+		Assert.That(actualException, Is.Not.Null);
 		Assert.That(actualException.ParamName, Is.EqualTo(expectedParamName));
 	}
 }

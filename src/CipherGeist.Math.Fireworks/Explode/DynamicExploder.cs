@@ -38,8 +38,6 @@ public class DynamicExploder : ExploderBase, IExploder<FireworkExplosion>
 	/// <exception cref="ArgumentOutOfRangeException"> if <paramref name="currentStepNumber"/> is less than zero or less than birth step number of the <paramref name="focus"/>.</exception>
 	public virtual FireworkExplosion Explode(Firework focus, IEnumerable<Firework> currentFireworks, int currentStepNumber)
 	{
-		ArgumentNullException.ThrowIfNull(focus);
-		ArgumentNullException.ThrowIfNull(currentFireworks);
 		ArgumentOutOfRangeException.ThrowIfNegative(currentStepNumber);
 
 		// Not '<=' here because that would limit possible algorithm implementations.

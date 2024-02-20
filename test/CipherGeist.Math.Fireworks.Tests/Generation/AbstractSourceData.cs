@@ -14,14 +14,14 @@ public abstract class AbstractSourceData
 
 			return new[]
 			{
-				new object?[] { null,      qualities,  0, typeof(ArgumentNullException),       "epicenter"},
+				new object?[] { null,      qualities,  0, typeof(ArgumentNullException),       "epicenter" },
 				new object?[] { epicenter, null,       0, typeof(ArgumentNullException),       "currentFireworkQualities" },
 				new object?[] { epicenter, qualities, -1, typeof(ArgumentOutOfRangeException), "currentStepNumber" }
 			};
 		}
 	}
 
-	public static IEnumerable<object[]> DataForTestCreationInstanceOfAttractRepulseGenerator
+	public static IEnumerable<object?[]> DataForTestCreationInstanceOfAttractRepulseGenerator
 	{
 		get
 		{
@@ -32,29 +32,29 @@ public abstract class AbstractSourceData
 
 			return new[]
 			{
-				new object[] {null,         dimensions, distribution, randomizer, "bestSolution"},
-				new object[] {bestSolution, null,       distribution, randomizer, "dimensions"},
-				new object[] {bestSolution, dimensions, null,         randomizer, "distribution"},
-				new object[] {bestSolution, dimensions, distribution, null,       "randomizer"}
+				new object?[] { null,         dimensions, distribution, randomizer, "bestSolution" },
+				new object?[] { bestSolution, null,       distribution, randomizer, "dimensions" },
+				new object?[] { bestSolution, dimensions, null,         randomizer, "distribution" },
+				new object?[] { bestSolution, dimensions, distribution, null,       "randomizer" }
 			};
 		}
 	}
 
-	public static IEnumerable<object[]> DataForTestMethodMutateFireworkOfAttractRepulseSparkMutator
+	public static IEnumerable<object?[]> DataForTestMethodMutateFireworkOfAttractRepulseSparkMutator
 	{
 		get
 		{
-			IDictionary<Dimension, double> coordinates = new Dictionary<Dimension, double>();
-			MutableFirework mutableFirework = new MutableFirework(FireworkType.SpecificSpark, 0, 0, coordinates);
+			var coordinates = new Dictionary<Dimension, double>();
+			var mutableFirework = new MutableFirework(FireworkType.SpecificSpark, 0, 0, coordinates);
 
-			MutableFirework epicenter = mutableFirework;
-			Dictionary<FireworkType, int> sparks = new Dictionary<FireworkType, int>();
-			FireworkExplosion explosion = new FireworkExplosion(epicenter, 1, _amplitude, sparks);
+			var epicenter = mutableFirework;
+			var sparks = new Dictionary<FireworkType, int>();
+			var explosion = new FireworkExplosion(epicenter, 1, _amplitude, sparks);
 
 			return new[]
 			{
-				new object[] { mutableFirework, null,      "explosion"},
-				new object[] { null,            explosion, "firework"}
+				new object?[] { mutableFirework, null,      "explosion" },
+				new object?[] { null,            explosion, "firework" }
 			};
 		}
 	}

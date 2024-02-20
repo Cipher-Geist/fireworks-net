@@ -10,8 +10,10 @@ public class AttractRepulseSparkGeneratorTests : AbstractSourceData
 		System.Random randomizer, 
 		string expectedParamName)
 	{
-		var exeption = Assert.Throws<ArgumentNullException>(
-			() => new AttractRepulseSparkGenerator(bestSolution, dimensions, distribution, randomizer));
+		var exeption = Assert.Throws<ArgumentNullException>(() =>
+		{
+			new AttractRepulseSparkGenerator(bestSolution, dimensions, distribution, randomizer);
+		});
 
 		Assert.That(exeption.ParamName, Is.EqualTo(expectedParamName));
 	}

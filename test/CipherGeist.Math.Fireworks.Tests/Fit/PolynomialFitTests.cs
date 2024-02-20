@@ -47,7 +47,7 @@ public class PolynomialFitTests
 
 		foreach (double value in Enumerable.Range(-3, 10))
 		{
-			Assert.IsTrue(!expectedFunc(value).AlmostEqual(actualFunc(value), 2));
+			Assert.That(!expectedFunc(value).AlmostEqual(actualFunc(value), 2), Is.True);
 		}
 	}
 }

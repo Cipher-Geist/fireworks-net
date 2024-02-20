@@ -14,13 +14,17 @@ public sealed class FireworksAlgorithm2012 : StepperFireworksAlgorithmBase<Firew
 	/// <param name="problem">The problem to be solved by the algorithm.</param>
 	/// <param name="stopCondition">The stop condition for the algorithm.</param>
 	/// <param name="settings">The algorithm settings.</param>
-	public FireworksAlgorithm2012(Problem problem, IStopCondition stopCondition, FireworksAlgorithmSettings2012 settings)
-		: base(problem, stopCondition, settings)
+	/// <param name="logger">The logger.</param>
+	public FireworksAlgorithm2012(
+		Problem problem, 
+		IStopCondition stopCondition, 
+		FireworksAlgorithmSettings2012 settings, 
+		ILogger<FireworksAlgorithm2012> logger)
+			: base(problem, stopCondition, settings, logger)
 	{
 		Randomizer = new DefaultRandom();
-		BestWorstFireworkSelector = new ExtremumFireworkSelector(problem.Target);
+		
 		Distribution = new NormalDistribution(NORMAL_DISTRIBUTION_MEAN, NORMAL_DISTRIBUTION_STD_DEV);
-
 		InitialSparkGenerator = new InitialSparkGenerator(problem.Dimensions, problem.InitialDimensionRanges, Randomizer);
 		ExplosionSparkGenerator = new ExplosionSparkGenerator2012(problem.Dimensions, Randomizer);
 		GaussianSparkGenerator = new GaussianSparkGenerator2012(problem.Dimensions, Distribution);
@@ -61,7 +65,7 @@ public sealed class FireworksAlgorithm2012 : StepperFireworksAlgorithmBase<Firew
 		Debug.Assert(fireworks != null, "Initial firework collection is null");
 
 		CalculateQualities(fireworks);
-		_state = new AlgorithmState(fireworks, 0, BestWorstFireworkSelector?.SelectBest(fireworks));
+		_state = new AlgorithmState(fireworks, 0, BestWorstFireworkSelector.SelectBest(fireworks));
 	}
 
 	/// <summary>
@@ -104,7 +108,7 @@ public sealed class FireworksAlgorithm2012 : StepperFireworksAlgorithmBase<Firew
 		var eliteFirework = EliteStrategyGenerator.CreateSpark(eliteExplosion);
 		CalculateQuality(eliteFirework);
 
-		var worstFirework = BestWorstFireworkSelector?.SelectWorst(selectedFireworks);
+		var worstFirework = BestWorstFireworkSelector.SelectWorst(selectedFireworks);
 
 		ArgumentNullException.ThrowIfNull(worstFirework, nameof(worstFirework));
 
@@ -116,7 +120,7 @@ public sealed class FireworksAlgorithm2012 : StepperFireworksAlgorithmBase<Firew
 
 		_state.Fireworks = selectedFireworks;
 		_state.StepNumber = stepNumber;
-		_state.BestSolution = BestWorstFireworkSelector?.SelectBest(selectedFireworks);
+		_state.BestSolution = BestWorstFireworkSelector.SelectBest(selectedFireworks);
 
 		RaiseStepCompleted(new AlgorithmStateEventArgs(_state));
 	}

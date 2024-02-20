@@ -38,8 +38,8 @@ public class NearBestSelectorTests
 		var expectedFireworks = SelectorTestsHelper.NearBestFireworks;
 		var resultingFireworks = _nearBestSelector.SelectFireworks(_allFireworks, _samplingNumber);
 
-		Assert.AreNotSame(expectedFireworks, resultingFireworks);
-		Assert.AreEqual(expectedFireworks, resultingFireworks);
+		Assert.That(resultingFireworks, Is.Not.SameAs(expectedFireworks));
+		Assert.That(resultingFireworks, Is.EqualTo(expectedFireworks));
 	}
 
 	[Test]
@@ -48,21 +48,8 @@ public class NearBestSelectorTests
 		var expectedFireworks = SelectorTestsHelper.NonNearBestFirework;
 		var resultingFireworks = _nearBestSelector.SelectFireworks(_allFireworks, _samplingNumber);
 
-		Assert.AreNotSame(expectedFireworks, resultingFireworks);
-		Assert.AreNotEqual(expectedFireworks, resultingFireworks);
-	}
-
-	[Test]
-	public void SelectFireworksNullAs1stParamExceptionThrown()
-	{
-		string expectedParamName = "from";
-		IEnumerable<Firework> currentFireworks = null;
-
-		ArgumentNullException actualException = Assert.Throws<ArgumentNullException>(() =>
-		_nearBestSelector.SelectFireworks(currentFireworks, _samplingNumber));
-
-		Assert.NotNull(actualException);
-		Assert.AreEqual(expectedParamName, actualException.ParamName);
+		Assert.That(resultingFireworks, Is.Not.SameAs(expectedFireworks));
+		Assert.That(resultingFireworks, Is.Not.EqualTo(expectedFireworks));
 	}
 
 	[Test]
@@ -71,11 +58,13 @@ public class NearBestSelectorTests
 		string expectedParamName = "numberToSelect";
 		int samplingNumber = -1;
 
-		ArgumentOutOfRangeException actualException = Assert.Throws<ArgumentOutOfRangeException>(() =>
-		_nearBestSelector.SelectFireworks(_allFireworks, samplingNumber));
+		var actualException = Assert.Throws<ArgumentOutOfRangeException>(() =>
+		{
+			_nearBestSelector.SelectFireworks(_allFireworks, samplingNumber);
+		});
 
-		Assert.NotNull(actualException);
-		Assert.AreEqual(expectedParamName, actualException.ParamName);
+		Assert.That(actualException, Is.Not.Null);
+		Assert.That(actualException.ParamName, Is.EqualTo(expectedParamName));
 	}
 
 	[Test]
@@ -84,34 +73,36 @@ public class NearBestSelectorTests
 		string expectedParamName = "numberToSelect";
 		int samplingNumber = _countFireworks + 1;
 
-		ArgumentOutOfRangeException actualException = Assert.Throws<ArgumentOutOfRangeException>(() =>
-		_nearBestSelector.SelectFireworks(_allFireworks, samplingNumber));
+		var actualException = Assert.Throws<ArgumentOutOfRangeException>(() =>
+		{
+			_nearBestSelector.SelectFireworks(_allFireworks, samplingNumber);
+		});
 
-		Assert.NotNull(actualException);
-		Assert.AreEqual(expectedParamName, actualException.ParamName);
+		Assert.That(actualException, Is.Not.Null);
+		Assert.That(actualException.ParamName, Is.EqualTo(expectedParamName));
 	}
 
 	[Test]
 	public void SelectFireworksCountFireworksEqual2ndParamReturnsEqualFireworks()
 	{
-		IEnumerable<Firework> expectedFireworks = _allFireworks;
+		var expectedFireworks = _allFireworks;
 		int samplingNumber = _countFireworks;
 
-		IEnumerable<Firework> resultingFireworks = _nearBestSelector.SelectFireworks(_allFireworks, samplingNumber);
+		var resultingFireworks = _nearBestSelector.SelectFireworks(_allFireworks, samplingNumber);
 
-		Assert.AreNotSame(expectedFireworks, resultingFireworks);
-		Assert.AreEqual(expectedFireworks, resultingFireworks);
+		Assert.That(resultingFireworks, Is.Not.SameAs(expectedFireworks));
+		Assert.That(resultingFireworks, Is.EqualTo(expectedFireworks));
 	}
 
 	[Test]
 	public void SelectFireworksNullAs2ndParamReturnsEmptyCollectionFireworks()
 	{
-		IEnumerable<Firework> expectedFireworks = new List<Firework>();
+		var expectedFireworks = new List<Firework>();
 		int samplingNumber = 0;
 
-		IEnumerable<Firework> resultingFireworks = _nearBestSelector.SelectFireworks(_allFireworks, samplingNumber);
+		var resultingFireworks = _nearBestSelector.SelectFireworks(_allFireworks, samplingNumber);
 
-		Assert.AreNotSame(expectedFireworks, resultingFireworks);
-		Assert.AreEqual(expectedFireworks, resultingFireworks);
+		Assert.That(resultingFireworks, Is.Not.SameAs(expectedFireworks));
+		Assert.That(resultingFireworks, Is.EqualTo(expectedFireworks));
 	}
 }

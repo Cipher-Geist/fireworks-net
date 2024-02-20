@@ -14,11 +14,15 @@ public sealed class FireworksAlgorithm : StepperFireworksAlgorithmBase<Fireworks
 	/// <param name="problem">The problem to be solved by the algorithm.</param>
 	/// <param name="stopCondition">The stop condition for the algorithm.</param>
 	/// <param name="settings">The algorithm settings.</param>
-	public FireworksAlgorithm(Problem problem, IStopCondition stopCondition, FireworksAlgorithmSettings settings)
-		: base(problem, stopCondition, settings)
+	/// <param name="logger">The logger.</param>
+	public FireworksAlgorithm(
+		Problem problem, 
+		IStopCondition stopCondition, 
+		FireworksAlgorithmSettings settings, 
+		ILogger<FireworksAlgorithm> logger)
+			: base(problem, stopCondition, settings, logger)
 	{
 		Randomizer = new DefaultRandom();
-		BestWorstFireworkSelector = new ExtremumFireworkSelector(problem.Target);
 
 		Distribution = new NormalDistribution(NORMAL_DISTRIBUTION_MEAN, NORMAL_DISTRIBUTION_STD_DEV);
 		InitialSparkGenerator = new InitialSparkGenerator(problem.Dimensions, problem.InitialDimensionRanges, Randomizer);
@@ -54,7 +58,7 @@ public sealed class FireworksAlgorithm : StepperFireworksAlgorithmBase<Fireworks
 		ArgumentNullException.ThrowIfNull(fireworks, nameof(fireworks));
 
 		CalculateQualities(fireworks);
-		_state = new AlgorithmState(fireworks, 0, BestWorstFireworkSelector?.SelectBest(fireworks));
+		_state = new AlgorithmState(fireworks, 0, BestWorstFireworkSelector.SelectBest(fireworks));
 	}
 
 	/// <summary>
@@ -95,7 +99,7 @@ public sealed class FireworksAlgorithm : StepperFireworksAlgorithmBase<Fireworks
 
 		_state.Fireworks = selectedFireworks;
 		_state.StepNumber = stepNumber;
-		_state.BestSolution = BestWorstFireworkSelector?.SelectBest(selectedFireworks);
+		_state.BestSolution = BestWorstFireworkSelector.SelectBest(selectedFireworks);
 
 		RaiseStepCompleted(new AlgorithmStateEventArgs(_state));
 	}
