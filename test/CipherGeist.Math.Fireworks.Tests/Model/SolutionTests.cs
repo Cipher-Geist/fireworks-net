@@ -12,7 +12,7 @@ public class SolutionTests
 			var first = new Solution(_quality1);
 			return new[] 
 			{
-				new object[] { first, new Solution(null, _quality2),                                false },
+				new object[] { first, new Solution(_quality2),										false },
 				new object[] { first, new Solution(new Dictionary<Dimension, double>(), _quality1), false },
 				new object[] { first, "badObject",                                                  false }
 			};

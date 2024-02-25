@@ -7,7 +7,7 @@ public class AttractRepulseSparkGeneratorTests : AbstractSourceData
 		Solution bestSolution, 
 		IEnumerable<Dimension> dimensions, 
 		ContinuousUniformDistribution distribution,
-		System.Random randomizer, 
+		IRandomizer randomizer, 
 		string expectedParamName)
 	{
 		var exeption = Assert.Throws<ArgumentNullException>(() =>

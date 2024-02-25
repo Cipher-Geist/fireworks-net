@@ -19,7 +19,7 @@ public class DynamicExploderTests
 		};
 		var problem = new Problem(dimensions, func, target);
 
-		var randomizer = new DefaultRandom();
+		var randomizer = new Randomizer();
 		var bestWorstFireworkSelector = new ExtremumFireworkSelector(problem.Target);
 
 		_initialSparkGenerator = new InitialSparkGenerator(problem.Dimensions, problem.InitialDimensionRanges, randomizer);

@@ -5,7 +5,7 @@ namespace CipherGeist.Math.Fireworks.Random;
 /// <summary>
 /// A factory for different randomizers.
 /// </summary>
-public class RandomizerFactory
+internal class RandomizerFactory
 {
 	/// <summary>
 	/// Get a randomizer.

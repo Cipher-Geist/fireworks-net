@@ -24,6 +24,7 @@
 		<PackageProjectUrl>https://github.com/Cipher-Geist/fireworks-net</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/Cipher-Geist/fireworks-net</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup>

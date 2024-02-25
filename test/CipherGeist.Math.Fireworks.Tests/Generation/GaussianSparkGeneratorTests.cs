@@ -21,7 +21,7 @@ public class GaussianSparkGeneratorTests
 		{
 			var distribution = new TestDistribution();
 			var dimensions = new List<Dimension>();
-			var randomizer = new System.Random();
+			var randomizer = new Randomizer();
 
 			return new[]
 			{
@@ -36,11 +36,13 @@ public class GaussianSparkGeneratorTests
 	public void GaussianSparkGeneratorNegativeParamsArgumentNullExceptionThrown(
 		IEnumerable<Dimension> dimensions,
 		IContinuousDistribution distribution,
-		System.Random randomizer,
+		IRandomizer randomizer,
 		string expectedParamName)
 	{
 		var actualException = Assert.Throws<ArgumentNullException>(() =>
-			new GaussianSparkGenerator(dimensions, distribution, randomizer));
+		{
+			new GaussianSparkGenerator(dimensions, distribution, randomizer);
+		});
 
 		Assert.That(actualException, Is.Not.Null);
 		Assert.That(actualException.ParamName, Is.EqualTo(expectedParamName));

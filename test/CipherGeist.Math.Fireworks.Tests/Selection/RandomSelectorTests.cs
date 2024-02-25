@@ -4,7 +4,7 @@ public class RandomSelectorTests
 {
 	private readonly int _samplingNumber;
 	private readonly int _countFireworks;
-	private readonly System.Random _randomizer;
+	private readonly IRandomizer _randomizer;
 	private readonly IEnumerable<Firework> _allFireworks;
 	private readonly RandomFireworkSelector _randomSelector;
 
@@ -12,7 +12,7 @@ public class RandomSelectorTests
 	{
 		_samplingNumber = SelectorTestsHelper.SamplingNumber;
 		_countFireworks = SelectorTestsHelper.CountFireworks;
-		_randomizer = new System.Random();
+		_randomizer = new Randomizer();
 		_allFireworks = SelectorTestsHelper.Fireworks;
 		_randomSelector = new RandomFireworkSelector(_randomizer, _samplingNumber);
 	}

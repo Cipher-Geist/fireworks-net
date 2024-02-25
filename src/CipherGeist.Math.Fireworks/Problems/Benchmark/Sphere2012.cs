@@ -24,8 +24,6 @@ public sealed class Sphere2012 : BenchmarkProblem
 	/// Initializes a new instance of the <see cref="Sphere2012"/> class.
 	/// </summary>
 	/// <param name="dimensions">Dimensions of the problem.</param>
-	/// <param name="initialDimensionRanges">Initial dimension ranges, to be used to 
-	/// create initial fireworks.</param>
 	/// <param name="targetFunction">Quality function.</param>
 	/// <param name="knownSolution">Known solution.</param>
 	/// <param name="target">Problem target.</param>

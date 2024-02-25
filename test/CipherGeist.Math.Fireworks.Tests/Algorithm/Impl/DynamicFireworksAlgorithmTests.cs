@@ -67,8 +67,9 @@ public class DynamicFireworksAlgorithmTests
 		var stopChain = ChainStopCondition
 			.From(stepCounterStopCondition)
 			.Or(new CoordinateProximityStopCondition(problem!.KnownSolution!, distanceCalculator, TOLERANCE));
+		var randomizer = new Randomizer();
 
-		var fireworksAlgorithm = new DynamicFireworksAlgorithm(problem, stopChain, _dynamicSettings, _mockLogger.Object);
+		var fireworksAlgorithm = new DynamicFireworksAlgorithm(problem, stopChain, randomizer, _dynamicSettings, _mockLogger.Object);
 		fireworksAlgorithm.OnStopConditionSatisfied += FireworksAlgorithm_OnStopConditionSatisfied!;
 
 		var solution = _timedExecutor.Execute(() => fireworksAlgorithm.Solve());
@@ -89,7 +90,7 @@ public class DynamicFireworksAlgorithmTests
 	{
 		var problem = (BenchmarkProblem)problemObject;
 
-		StepCounterStopCondition? stepCounterStopCondition = new(maximumIterations);
+		StepCounterStopCondition? stepCounterStopCondition = new (maximumIterations);
 		problem.QualityCalculated += stepCounterStopCondition!.IncrementCounter!;
 
 		var distanceCalculator = new EuclideanDistance(problem!.Dimensions!);
@@ -97,8 +98,10 @@ public class DynamicFireworksAlgorithmTests
 			.From(stepCounterStopCondition)
 			.Or(new CoordinateProximityStopCondition(problem!.KnownSolution!, distanceCalculator, TOLERANCE));
 
+		var randomizer = new Randomizer();
 		var ml = new Mock<ILogger<FireworksAlgorithm2012>>();
-		var fireworksAlgorithm = new FireworksAlgorithm2012(problem, stopChain, _dynamicSettings, ml.Object);
+
+		var fireworksAlgorithm = new FireworksAlgorithm2012(problem, stopChain, randomizer, _dynamicSettings, ml.Object);
 		fireworksAlgorithm.OnStopConditionSatisfied += FireworksAlgorithm_OnStopConditionSatisfied!;
 
 		var solution = _timedExecutor.Execute(() => fireworksAlgorithm.Solve());
@@ -182,9 +185,10 @@ public class DynamicFireworksAlgorithmTests
 		DynamicFireworksAlgorithmSettings settings,
 		string expectedParamName)
 	{
+		var randomizer = new Randomizer();
 		var actualException = Assert.Throws<ArgumentNullException>(() =>
 		{
-			new DynamicFireworksAlgorithm(problem, stopCondition, settings, _mockLogger.Object);
+			new DynamicFireworksAlgorithm(problem, stopCondition, randomizer, settings, _mockLogger.Object);
 		});
 
 		Assert.That(actualException, Is.Not.Null);

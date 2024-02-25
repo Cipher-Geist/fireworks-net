@@ -53,6 +53,7 @@ dotnet_diagnostic.SA1600.severity = none
 dotnet_diagnostic.SA1010.severity = none
 dotnet_diagnostic.SA1133.severity = none
 dotnet_diagnostic.SA1515.severity = none
+dotnet_diagnostic.SA0001.severity = none
 
 [*.{cs,vb}]
 #### Naming styles ####
@@ -110,7 +111,7 @@ dotnet_style_null_propagation = true:suggestion
 dotnet_style_prefer_is_null_check_over_reference_equality_method = true:suggestion
 dotnet_style_prefer_auto_properties = true:silent
 dotnet_style_object_initializer = true:suggestion
-dotnet_style_prefer_collection_expression = true:suggestion
+dotnet_style_prefer_collection_expression = when_types_exactly_match:suggestion
 dotnet_style_collection_initializer = true:suggestion
 dotnet_style_prefer_simplified_boolean_expressions = true:suggestion
 dotnet_style_prefer_conditional_expression_over_assignment = true:silent

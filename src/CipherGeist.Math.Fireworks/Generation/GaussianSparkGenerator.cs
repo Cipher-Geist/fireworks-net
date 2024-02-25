@@ -7,7 +7,7 @@ public class GaussianSparkGenerator : SparkGeneratorBase<FireworkExplosion>
 {
 	private readonly IEnumerable<Dimension> _dimensions;
 	private readonly IContinuousDistribution _distribution;
-	private readonly System.Random _randomizer;
+	private readonly IRandomizer _randomizer;
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="GaussianSparkGenerator"/> class.
@@ -19,7 +19,7 @@ public class GaussianSparkGenerator : SparkGeneratorBase<FireworkExplosion>
 	/// or <paramref name="distribution"/> or <paramref name="randomizer"/> is
 	/// <c>null</c>.
 	/// </exception>
-	public GaussianSparkGenerator(IEnumerable<Dimension> dimensions, IContinuousDistribution distribution, System.Random randomizer)
+	public GaussianSparkGenerator(IEnumerable<Dimension> dimensions, IContinuousDistribution distribution, IRandomizer randomizer)
 	{
 		_dimensions = dimensions ?? throw new ArgumentNullException(nameof(dimensions));
 		_distribution = distribution ?? throw new ArgumentNullException(nameof(distribution));
@@ -45,7 +45,7 @@ public class GaussianSparkGenerator : SparkGeneratorBase<FireworkExplosion>
 		var spark = new Firework(GeneratedSparkType, explosion.StepNumber, birthOrder, explosion.ParentFirework);
 		var offsetDisplacement = _distribution.Sample(); // Coefficient of Gaussian explosion.
 
-		foreach (Dimension dimension in _dimensions)
+		foreach (var dimension in _dimensions)
 		{
 			// Coin flip.
 			if (_randomizer.NextBoolean())

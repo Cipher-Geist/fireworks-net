@@ -9,7 +9,7 @@
 public class DynamicExplosionSparkGenerator : SparkGeneratorBase<FireworkExplosion>
 {
 	private readonly IEnumerable<Dimension> _dimensions;
-	private readonly System.Random _randomizer;
+	private readonly IRandomizer _randomizer;
 
 	private const double OFFSET_DISPLACEMENT_RANDOM_MIN = -1.0;
 	private const double OFFSET_DISPLACEMENT_RANDOM_MAX = 1.0;
@@ -21,7 +21,7 @@ public class DynamicExplosionSparkGenerator : SparkGeneratorBase<FireworkExplosi
 	/// <param name="randomizer">The randomizer.</param>
 	/// <exception cref="ArgumentNullException"> if <paramref name="dimensions"/> 
 	/// or <paramref name="randomizer"/> is <c>null</c>.</exception>
-	public DynamicExplosionSparkGenerator(IEnumerable<Dimension> dimensions, System.Random randomizer)
+	public DynamicExplosionSparkGenerator(IEnumerable<Dimension> dimensions, IRandomizer randomizer)
 	{
 		_dimensions = dimensions;
 		_randomizer = randomizer;

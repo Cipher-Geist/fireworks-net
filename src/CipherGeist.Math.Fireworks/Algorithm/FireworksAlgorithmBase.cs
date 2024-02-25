@@ -9,6 +9,9 @@ namespace CipherGeist.Math.Fireworks.Algorithm;
 public abstract class FireworksAlgorithmBase<TSettings> : IFireworksAlgorithm
 	where TSettings : class
 {
+	/// <summary>
+	/// The logger.
+	/// </summary>
 	protected ILogger _logger;
 
 	/// <summary>

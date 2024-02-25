@@ -13,26 +13,32 @@ public sealed class DynamicFireworksAlgorithm : StepperFireworksAlgorithmBase<Dy
 	private const double NORMAL_DISTRIBUTION_STD_DEV = 1.0;
 
 	/// <summary>
-	/// Initializes a new instance of the <see cref="EnhancedFireworksAlgorithm"/> class.
+	/// Initializes a new instance of the <see cref="DynamicFireworksAlgorithm"/> class.
 	/// </summary>
 	/// <param name="problem">The problem to be solved by the algorithm.</param>
 	/// <param name="stopCondition">The stop condition for the algorithm.</param>
+	/// <param name="randomizer">The randomizer.</param>
 	/// <param name="settings">The algorithm settings.</param>
 	/// <param name="logger">The logger.</param>
 	public DynamicFireworksAlgorithm(
 		Problem problem, 
 		IStopCondition stopCondition, 
+		IRandomizer randomizer,
 		DynamicFireworksAlgorithmSettings settings, 
 		ILogger<DynamicFireworksAlgorithm> logger)
 			: base(problem, stopCondition, settings, logger)
 	{
-		Randomizer = new DefaultRandom();
+		Randomizer = randomizer;
+
+		_logger?.LogInformation("Initialized {Randomizer} randomizer", Randomizer.RandomizerType);
 
 		InitialSparkGenerator = new InitialSparkGenerator(problem.Dimensions, problem.InitialDimensionRanges, Randomizer);
 		ExplosionSparkGenerator = new ExplosionSparkGenerator2012(problem.Dimensions, Randomizer);
 
 		var distribution = new NormalDistribution(NORMAL_DISTRIBUTION_MEAN, NORMAL_DISTRIBUTION_STD_DEV);
 		GaussianSparkGenerator = new GaussianSparkGenerator2012(problem.Dimensions, distribution);
+
+		_logger?.LogInformation("Initialized the spark generators");
 
 		var bestSelector = new Func<IEnumerable<Firework>, Firework>(BestWorstFireworkSelector.SelectBest);
 		BestAndRandomFireworkSelector = new BestAndRandomFireworkSelector(Randomizer, bestSelector);
@@ -139,7 +145,7 @@ public sealed class DynamicFireworksAlgorithm : StepperFireworksAlgorithmBase<Dy
 	/// <summary>
 	/// Gets or sets the randomizer.
 	/// </summary>
-	public System.Random Randomizer { get; set; }
+	public IRandomizer Randomizer { get; set; }
 
 	/// <summary>
 	/// Gets or sets the initial spark generator.

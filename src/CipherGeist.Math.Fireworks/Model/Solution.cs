@@ -12,7 +12,7 @@ public class Solution : IEquatable<Solution>, ISolution
 	/// </summary>
 	/// <param name="coordinates">Solution coordinates in problem space.</param>
 	/// <param name="quality">Solution quality (value of target function).</param>
-	public Solution(IDictionary<Dimension, double>? coordinates, double quality)
+	public Solution(IDictionary<Dimension, double> coordinates, double quality)
 	{
 		Coordinates = coordinates;
 		Quality = quality;
@@ -24,7 +24,7 @@ public class Solution : IEquatable<Solution>, ISolution
 	/// </summary>
 	/// <param name="coordinates">Solution coordinates in problem space.</param>
 	/// <remarks><see cref="Quality"/> is set to <see cref="double.NaN"/>.</remarks>
-	public Solution(IDictionary<Dimension, double>? coordinates)
+	public Solution(IDictionary<Dimension, double> coordinates)
 		: this(coordinates, double.NaN)
 	{
 	}
@@ -36,7 +36,7 @@ public class Solution : IEquatable<Solution>, ISolution
 	/// <param name="quality">Solution quality (value of target function).</param>
 	/// <remarks><see cref="Coordinates"/> is set to <c>null</c>.</remarks>
 	public Solution(double quality)
-		: this(null, quality)
+		: this(new Dictionary<Dimension, double>(), quality)
 	{
 	}
 
@@ -161,7 +161,7 @@ public class Solution : IEquatable<Solution>, ISolution
 	/// Gets or sets solution coordinates in problem space.
 	/// TODO: Think of replacing Dictionary with some derived class, like CoordinateDictionary.
 	/// </summary>
-	public IDictionary<Dimension, double>? Coordinates { get; protected set; }
+	public IDictionary<Dimension, double> Coordinates { get; protected set; }
 
 	/// <summary>
 	/// Gets or sets solution quality (value of target function).

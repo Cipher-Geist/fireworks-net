@@ -6,7 +6,7 @@
 /// </summary>
 public class RandomFireworkSelector : FireworkSelectorBase
 {
-	private readonly System.Random _randomizer;
+	private readonly IRandomizer _randomizer;
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="RandomFireworkSelector"/> class.
@@ -16,7 +16,7 @@ public class RandomFireworkSelector : FireworkSelectorBase
 	/// <exception cref="System.ArgumentNullException"> if <paramref name="randomizer"/>
 	/// is <c>null</c>.
 	/// </exception>
-	public RandomFireworkSelector(System.Random randomizer, int locationsNumber)
+	public RandomFireworkSelector(IRandomizer randomizer, int locationsNumber)
 		: base(locationsNumber)
 	{
 		_randomizer = randomizer ?? throw new ArgumentNullException(nameof(randomizer));
@@ -28,7 +28,7 @@ public class RandomFireworkSelector : FireworkSelectorBase
 	/// <param name="randomizer">The random number generator.</param>
 	/// <remarks>It is assumed that number of <see cref="Firework"/>s to be selected
 	/// differs from step to step and hence is passed to the <c>Select</c> method.</remarks>
-	public RandomFireworkSelector(System.Random randomizer)
+	public RandomFireworkSelector(IRandomizer randomizer)
 		: this(randomizer, 0)
 	{
 	}

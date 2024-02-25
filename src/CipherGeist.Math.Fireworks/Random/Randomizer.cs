@@ -7,67 +7,72 @@ namespace CipherGeist.Math.Fireworks.Random;
 /// </summary>
 /// <remarks>Uses <see cref="MersenneTwister"/> thread-safe wrapper
 /// around <see cref="Random"/> that comes with Math.NET Numerics.</remarks>
-public class DefaultRandom : System.Random
+public class Randomizer : System.Random, IRandomizer
 {
 	private readonly System.Random _randomizer;
+	private readonly RandomizerType _randomizerType;
 
 	/// <summary>
-	/// Initializes a new instance of the <see cref="DefaultRandom"/> class.
+	/// Initializes a new instance of the <see cref="Randomizer"/> class.
 	/// </summary>
-	public DefaultRandom()
+	public Randomizer()
 	{
 		_randomizer = new MersenneTwister();
+		_randomizerType = RandomizerType.MersenneTwister;
 	}
 
 	/// <summary>
-	/// Initializes a new instance of the <see cref="DefaultRandom"/> class using the specified pseudo random number generator.
+	/// Initializes a new instance of the <see cref="Randomizer"/> class using the specified pseudo random number generator.
 	/// </summary>
 	/// <param name="randomizerType">The type of the pseudo random number generator.</param>
-	public DefaultRandom(RandomizerType randomizerType)
+	public Randomizer(RandomizerType randomizerType)
 	{
 		_randomizer = RandomizerFactory.GetRandomizer(randomizerType);
+		_randomizerType = randomizerType;
 	}
 
 	/// <summary>
-	/// Initializes a new instance of the <see cref="DefaultRandom"/> class.
+	/// Initializes a new instance of the <see cref="Randomizer"/> class.
 	/// </summary>
 	/// <param name="seed">The seed.</param>
-	public DefaultRandom(int seed)
+	public Randomizer(int seed)
 		: this(seed, true)
 	{
 	}
 
 	/// <summary>
-	/// Initializes a new instance of the <see cref="DefaultRandom"/> class using the specified pseudo random number generator.
+	/// Initializes a new instance of the <see cref="Randomizer"/> class using the specified pseudo random number generator.
 	/// </summary>
 	/// <param name="randomizerType">The type of the pseudo random number generator.</param>
 	/// <param name="seed">The seed.</param>
-	public DefaultRandom(RandomizerType randomizerType, int seed)
+	public Randomizer(RandomizerType randomizerType, int seed)
 		: this(randomizerType, seed, true)
 	{
 	}
 
 	/// <summary>
-	/// Initializes a new instance of the <see cref="DefaultRandom"/> class.
+	/// Initializes a new instance of the <see cref="Randomizer"/> class.
 	/// </summary>
 	/// <param name="seed">The seed.</param>
 	/// <param name="threadSafe">If set to <c>true</c>, a thread safe version
 	/// is used. Default value is <c>true</c>.</param>
-	public DefaultRandom(int seed, bool threadSafe)
+	public Randomizer(int seed, bool threadSafe)
 	{
 		_randomizer = new MersenneTwister(seed, threadSafe);
+		_randomizerType = RandomizerType.MersenneTwister;
 	}
 
 	/// <summary>
-	/// Initializes a new instance of the <see cref="DefaultRandom"/> class using the specified pseudo random number generator.
+	/// Initializes a new instance of the <see cref="Randomizer"/> class using the specified pseudo random number generator.
 	/// </summary>
 	/// <param name="randomizerType">The type of the pseudo random number generator.</param>
 	/// <param name="seed">The seed.</param>
 	/// <param name="threadSafe">If set to <c>true</c>, a thread safe version
 	/// is used. Default value is <c>true</c>.</param>
-	public DefaultRandom(RandomizerType randomizerType, int seed, bool threadSafe)
+	public Randomizer(RandomizerType randomizerType, int seed, bool threadSafe)
 	{
 		_randomizer = RandomizerFactory.GetRandomizer(randomizerType, seed, threadSafe);
+		_randomizerType = randomizerType;
 	}
 
 	/// <summary>
@@ -132,5 +137,13 @@ public class DefaultRandom : System.Random
 	public override double NextDouble()
 	{
 		return _randomizer.NextDouble();
+	}
+
+	/// <summary>
+	/// Gets the type of the pseudo random number generator.
+	/// </summary>
+	public RandomizerType RandomizerType 
+	{ 
+		get { return _randomizerType; } 
 	}
 }

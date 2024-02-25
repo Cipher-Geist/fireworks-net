@@ -1,3 +1,5 @@
+using Moq;
+
 namespace CipherGeist.Math.Fireworks.Tests.Generation;
 
 public class LS1EliteSparkGeneratorTests
@@ -23,8 +25,10 @@ public class LS1EliteSparkGeneratorTests
 		IFit polynomialFit,
 		string expectedParamName)
 	{
-		var actualException = Assert.Throws<ArgumentNullException>(
-			() => new LS1EliteSparkGenerator(dimensions, polynomialFit));
+		var actualException = Assert.Throws<ArgumentNullException>(() =>
+		{
+			new LS1EliteSparkGenerator(dimensions, polynomialFit);
+		});
 
 		Assert.That(actualException, Is.Not.Null);
 		Assert.That(actualException.ParamName, Is.EqualTo(expectedParamName));

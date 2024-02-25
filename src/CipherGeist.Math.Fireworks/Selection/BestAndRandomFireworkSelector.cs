@@ -6,7 +6,7 @@
 /// </summary>
 public class BestAndRandomFireworkSelector : FireworkSelectorBase
 {
-	private readonly System.Random _randomizer;
+	private readonly IRandomizer _randomizer;
 	private readonly Func<IEnumerable<Firework>, Firework> _bestFireworkSelector;
 
 	/// <summary>
@@ -19,11 +19,11 @@ public class BestAndRandomFireworkSelector : FireworkSelectorBase
 	/// or <paramref name="bestFireworkSelector"/> is <c>null</c>.
 	/// </exception>
 	public BestAndRandomFireworkSelector(
-		System.Random randomizer,
+		IRandomizer randomizer,
 		Func<IEnumerable<Firework>,
 		Firework> bestFireworkSelector,
 		int locationsNumber)
-		: base(locationsNumber)
+			: base(locationsNumber)
 	{
 		_randomizer = randomizer ?? throw new ArgumentNullException(nameof(randomizer));
 		_bestFireworkSelector = bestFireworkSelector ?? throw new ArgumentNullException(nameof(bestFireworkSelector));
@@ -37,7 +37,7 @@ public class BestAndRandomFireworkSelector : FireworkSelectorBase
 	/// best <see cref="Firework"/>.</param>
 	/// <remarks>It is assumed that number of <see cref="Firework"/>s to be selected
 	/// differs from step to step and hence is passed to the <c>Select</c> method.</remarks>
-	public BestAndRandomFireworkSelector(System.Random randomizer, Func<IEnumerable<Firework>, Firework> bestFireworkSelector)
+	public BestAndRandomFireworkSelector(IRandomizer randomizer, Func<IEnumerable<Firework>, Firework> bestFireworkSelector)
 		: this(randomizer, bestFireworkSelector, 0)
 	{
 	}

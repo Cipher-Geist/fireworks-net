@@ -11,7 +11,7 @@ public class AttractRepulseSparkGenerator : SparkGeneratorBase<FireworkExplosion
 	private readonly Solution _bestSolution;
 	private readonly IEnumerable<Dimension> _dimensions;
 	private readonly IContinuousDistribution _distribution;
-	private readonly System.Random _randomizer;
+	private readonly IRandomizer _randomizer;
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="AttractRepulseSparkGenerator"/> class.
@@ -27,7 +27,7 @@ public class AttractRepulseSparkGenerator : SparkGeneratorBase<FireworkExplosion
 		Solution bestSolution,
 		IEnumerable<Dimension> dimensions,
 		IContinuousDistribution distribution,
-		System.Random randomizer)
+		IRandomizer randomizer)
 	{
 		_bestSolution = bestSolution ?? throw new ArgumentNullException(nameof(bestSolution));
 		_dimensions = dimensions ?? throw new ArgumentNullException(nameof(dimensions));
@@ -46,7 +46,7 @@ public class AttractRepulseSparkGenerator : SparkGeneratorBase<FireworkExplosion
 	/// <exception cref="ArgumentOutOfRangeException"> if <paramref name="birthOrder"/> is less than zero.</exception>
 	public override Firework CreateSpark(FireworkExplosion explosion, int birthOrder)
 	{
-		ArgumentNullException.ThrowIfNull(explosion);
+		ArgumentNullException.ThrowIfNull(explosion, nameof(explosion));
 		ArgumentOutOfRangeException.ThrowIfNegative(birthOrder);
 
 		var spark = new Firework(GeneratedSparkType, explosion.StepNumber, birthOrder, explosion.ParentFirework);

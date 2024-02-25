@@ -20,10 +20,9 @@ public class Firework : Solution
 	/// <param name="birthOrder">The number of firework in the collection of fireworks born by the same generator within one step.</param>
 	/// <param name="parentFirework">The parent firework that spawned the current firework.</param>
 	/// <exception cref="ArgumentOutOfRangeException"> if <paramref name="birthStepNumber"/> or <paramref name="birthOrder"/> is less than zero.</exception>
-	/// <exception cref="ArgumentNullException"> if <paramref name="coordinates"/> is <c>null</c>.</exception>
 	public Firework(FireworkType fireworkType, int birthStepNumber, int birthOrder, Firework? parentFirework)
 		: base(
-			parentFirework == null 
+			parentFirework == null || parentFirework.Coordinates == null
 				? new Dictionary<Dimension, double>() 
 				: parentFirework.Coordinates, 
 			double.NaN)

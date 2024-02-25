@@ -7,7 +7,7 @@ public class InitialSparkGenerator : SparkGeneratorBase<InitialExplosion>
 {
 	private readonly IEnumerable<Dimension> _dimensions;
 	private readonly IDictionary<Dimension, Interval> _initialRanges;
-	private readonly System.Random _randomizer;
+	private readonly IRandomizer _randomizer;
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="InitialSparkGenerator"/> class.
@@ -21,7 +21,7 @@ public class InitialSparkGenerator : SparkGeneratorBase<InitialExplosion>
 	public InitialSparkGenerator(
 		IEnumerable<Dimension> dimensions, 
 		IDictionary<Dimension, Interval> initialRanges, 
-		System.Random randomizer)
+		IRandomizer randomizer)
 	{
 		_dimensions = dimensions ?? throw new ArgumentNullException(nameof(dimensions));
 		_initialRanges = initialRanges ?? throw new ArgumentNullException(nameof(initialRanges));
@@ -39,15 +39,14 @@ public class InitialSparkGenerator : SparkGeneratorBase<InitialExplosion>
 	/// <exception cref="ArgumentOutOfRangeException"> if <paramref name="birthOrder"/> is less than zero.</exception>
 	public override Firework CreateSpark(InitialExplosion explosion, int birthOrder)
 	{
-		ArgumentNullException.ThrowIfNull(explosion);
 		ArgumentOutOfRangeException.ThrowIfNegative(birthOrder);
 
 		var spark = new Firework(GeneratedSparkType, 0, birthOrder);
 
-		foreach (Dimension dimension in _dimensions)
+		foreach (var dimension in _dimensions)
 		{
 			var dimensionRange = _initialRanges[dimension];
-			spark.Coordinates[dimension] = _randomizer.NextDouble(dimensionRange);
+			spark.Coordinates![dimension] = _randomizer.NextDouble(dimensionRange);
 		}
 
 		return spark;

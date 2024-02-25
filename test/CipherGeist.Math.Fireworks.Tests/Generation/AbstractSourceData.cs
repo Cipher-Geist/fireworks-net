@@ -28,7 +28,7 @@ public abstract class AbstractSourceData
 			var bestSolution = new Solution(0);
 			var dimensions = new List<Dimension>();
 			var distribution = new ContinuousUniformDistribution(_amplitude - _delta, _amplitude + _delta);
-			var randomizer = new System.Random();
+			var randomizer = new Randomizer();
 
 			return new[]
 			{
@@ -65,7 +65,7 @@ public abstract class AbstractSourceData
 		var dimensions = new List<Dimension>();
 		var distribution = new ContinuousUniformDistribution(_amplitude - _delta, _amplitude + _delta);
 
-		var randomizer = new System.Random();
+		var randomizer = new Randomizer();
 		var generator = new AttractRepulseSparkGenerator(bestSolution, dimensions, distribution, randomizer);
 
 		return generator;

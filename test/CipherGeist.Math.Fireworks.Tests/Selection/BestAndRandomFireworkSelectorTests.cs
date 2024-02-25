@@ -4,7 +4,7 @@ public class BestAndRandomFireworkSelectorTests
 {
 	private static readonly Func<IEnumerable<Firework>, Firework> _getBest = SelectorTestsHelper.GetBest;
 	private static readonly int _samplingNumber = SelectorTestsHelper.SamplingNumber;
-	private static readonly System.Random _randomizer = new System.Random();
+	private static readonly IRandomizer _randomizer = new Randomizer();
 
 	#region TestData.
 	public static IEnumerable<object?[]> ProblemData
@@ -13,7 +13,7 @@ public class BestAndRandomFireworkSelectorTests
 		{
 			Func<IEnumerable<Firework>, Firework> best = _getBest;
 			int samplingNumberParam = _samplingNumber;
-			System.Random randomizerParam = _randomizer;
+			IRandomizer randomizerParam = _randomizer;
 
 			return new[]
 			{
@@ -28,7 +28,7 @@ public class BestAndRandomFireworkSelectorTests
 		{
 			Func<IEnumerable<Firework>, Firework> best = _getBest;
 			int samplingNumberParam = -1;
-			System.Random randomizerParam = _randomizer;
+			IRandomizer randomizerParam = _randomizer;
 
 			return new[]
 			{
@@ -40,7 +40,7 @@ public class BestAndRandomFireworkSelectorTests
 
 	[TestCaseSource(nameof(ProblemData))]
 	public void BestAndRandomFireworkSelectorNegativeParamsArgumentNullExceptionThrown(
-		System.Random randomizer,
+		IRandomizer randomizer,
 		Func<IEnumerable<Firework>, Firework> bestFireworkSelector,
 		int locationsNumber,
 		string expectedParamName)
@@ -56,7 +56,7 @@ public class BestAndRandomFireworkSelectorTests
 
 	[TestCaseSource(nameof(ProblemData2))]
 	public void BestAndRandomFireworkSelectorNegative3rdParamsArgumentOutOfRangeExceptionThrown(
-		System.Random randomizer,
+		IRandomizer randomizer,
 		Func<IEnumerable<Firework>, Firework> bestFireworkSelector,
 		int locationsNumber,
 		string expectedParamName)

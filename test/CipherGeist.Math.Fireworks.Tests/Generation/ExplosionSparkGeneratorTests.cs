@@ -6,7 +6,7 @@ public class ExplosionSparkGeneratorTests
 	{
 		get
 		{
-			var randomizer = new System.Random();
+			var randomizer = new Randomizer();
 			var dimensions = new List<Dimension>();
 
 			return new[] 
@@ -20,7 +20,7 @@ public class ExplosionSparkGeneratorTests
 	[TestCaseSource(nameof(ProblemData))]
 	public void ExplosionSparkGenerator_NegativeParams_ArgumentNullExceptionThrown(
 		IEnumerable<Dimension> dimensions,
-		System.Random randomizer,
+		IRandomizer randomizer,
 		string expectedParamName)
 	{
 		var actualException = Assert.Throws<ArgumentNullException>(() => new ExplosionSparkGenerator(dimensions, randomizer));

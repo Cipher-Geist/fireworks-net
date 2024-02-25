@@ -15,7 +15,6 @@ public class MutableFirework : Firework
 	/// <param name="parentFirework">The parent firework that spawned the current firework.</param>
 	/// <exception cref="System.ArgumentOutOfRangeException"> if <paramref name="birthStepNumber"/>
 	/// or <paramref name="birthOrder"/> is less than zero.</exception>
-	/// <exception cref="System.ArgumentNullException"> if <paramref name="coordinates"/>is <c>null</c>.</exception>
 	public MutableFirework(FireworkType fireworkType, int birthStepNumber, int birthOrder, Firework parentFirework)
 		: base(fireworkType, birthStepNumber, birthOrder, parentFirework)
 	{
@@ -30,7 +29,6 @@ public class MutableFirework : Firework
 	/// the same generator within one step.</param>
 	/// <exception cref="System.ArgumentOutOfRangeException"> if <paramref name="birthStepNumber"/>
 	/// or <paramref name="birthOrder"/> is less than zero.</exception>
-	/// <exception cref="System.ArgumentNullException"> if <paramref name="coordinates"/>is <c>null</c>.</exception>
 	public MutableFirework(FireworkType fireworkType, int birthStepNumber, int birthOrder)
 		: base(fireworkType, birthStepNumber, birthOrder)
 	{
@@ -44,7 +42,6 @@ public class MutableFirework : Firework
 	/// <param name="birthOrder">The number of firework in the collection of fireworks born by the same generator within one step.</param>
 	/// <param name="coordinates">The firework coordinates.</param>
 	/// <exception cref="ArgumentOutOfRangeException"> if <paramref name="birthStepNumber"/> or <paramref name="birthOrder"/> is less than zero.</exception>
-	/// <exception cref="ArgumentNullException"> if <paramref name="coordinates"/> is <c>null</c>.</exception>
 	public MutableFirework(FireworkType fireworkType, int birthStepNumber, int birthOrder, IDictionary<Dimension, double> coordinates)
 		: base(fireworkType, birthStepNumber, birthOrder, coordinates)
 	{

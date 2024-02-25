@@ -7,7 +7,7 @@
 public class ExplosionSparkGenerator2012 : SparkGeneratorBase<FireworkExplosion>
 {
 	private readonly IEnumerable<Dimension> _dimensions;
-	private readonly System.Random _randomizer;
+	private readonly IRandomizer _randomizer;
 
 	private const double OFFSET_DISPLACEMENT_RANDOM_MIN = -1.0;
 	private const double OFFSET_DISPLACEMENT_RANDOM_MAX = 1.0;
@@ -19,7 +19,7 @@ public class ExplosionSparkGenerator2012 : SparkGeneratorBase<FireworkExplosion>
 	/// <param name="randomizer">The randomizer.</param>
 	/// <exception cref="ArgumentNullException"> if <paramref name="dimensions"/> 
 	/// or <paramref name="randomizer"/> is <c>null</c>.</exception>
-	public ExplosionSparkGenerator2012(IEnumerable<Dimension> dimensions, System.Random randomizer)
+	public ExplosionSparkGenerator2012(IEnumerable<Dimension> dimensions, IRandomizer randomizer)
 	{
 		_dimensions = dimensions ?? throw new ArgumentNullException(nameof(dimensions));
 		_randomizer = randomizer ?? throw new ArgumentNullException(nameof(randomizer));
@@ -41,9 +41,10 @@ public class ExplosionSparkGenerator2012 : SparkGeneratorBase<FireworkExplosion>
 		var spark = new Firework(GeneratedSparkType, explosion.StepNumber, birthOrder, explosion.ParentFirework);
 
 		// Mapping rule.
-		foreach (Dimension dimension in _dimensions)
+		foreach (var dimension in _dimensions)
 		{
-			// Modify each and every coordinate (without coin flip) in order to avoid fireworks with identical values of a dimension.
+			// Modify each and every coordinate (without coin flip) in order to avoid
+			// fireworks with identical values of a dimension.
 			double offsetDisplacement = explosion.Amplitude * 
 				_randomizer.NextDouble(
 					OFFSET_DISPLACEMENT_RANDOM_MIN, 

@@ -13,17 +13,19 @@ public sealed class FireworksAlgorithm2012 : StepperFireworksAlgorithmBase<Firew
 	/// </summary>
 	/// <param name="problem">The problem to be solved by the algorithm.</param>
 	/// <param name="stopCondition">The stop condition for the algorithm.</param>
+	/// <param name="randomizer">The randomizer.</param>
 	/// <param name="settings">The algorithm settings.</param>
 	/// <param name="logger">The logger.</param>
 	public FireworksAlgorithm2012(
 		Problem problem, 
 		IStopCondition stopCondition, 
+		IRandomizer randomizer,
 		FireworksAlgorithmSettings2012 settings, 
 		ILogger<FireworksAlgorithm2012> logger)
 			: base(problem, stopCondition, settings, logger)
 	{
-		Randomizer = new DefaultRandom();
-		
+		Randomizer = randomizer;
+
 		Distribution = new NormalDistribution(NORMAL_DISTRIBUTION_MEAN, NORMAL_DISTRIBUTION_STD_DEV);
 		InitialSparkGenerator = new InitialSparkGenerator(problem.Dimensions, problem.InitialDimensionRanges, Randomizer);
 		ExplosionSparkGenerator = new ExplosionSparkGenerator2012(problem.Dimensions, Randomizer);
@@ -145,7 +147,7 @@ public sealed class FireworksAlgorithm2012 : StepperFireworksAlgorithmBase<Firew
 	/// <summary>
 	/// Gets or sets the randomizer.
 	/// </summary>
-	public System.Random Randomizer { get; set; }
+	public IRandomizer Randomizer { get; set; }
 
 	/// <summary>
 	/// Gets or sets the continuous univariate probability distribution.
