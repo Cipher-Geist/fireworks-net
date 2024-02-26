@@ -10,6 +10,7 @@ public class DynamicFireworksAlgorithmTests
 	private Mock<ILogger<DynamicFireworksAlgorithm>> _mockLogger;
 	private DynamicFireworksAlgorithmSettings _dynamicSettings;
 	private TimedExecutor _timedExecutor;
+	private IRandomizer _mockRandomizer;
 
 	private const double TOLERANCE = 10E-3;
 	private const int MAXIMUM_ITERATIONS = 10_000;
@@ -33,6 +34,8 @@ public class DynamicFireworksAlgorithmTests
 			ReductionCoefficent = 0.9
 		};
 		_timedExecutor = new TimedExecutor();
+
+		_mockRandomizer = new DeterministicMockRandomizer(seed: 12345);
 	}
 
 	public static IEnumerable<object[]> SolutionsData
@@ -69,7 +72,7 @@ public class DynamicFireworksAlgorithmTests
 			.Or(new CoordinateProximityStopCondition(problem!.KnownSolution!, distanceCalculator, TOLERANCE));
 		var randomizer = new Randomizer();
 
-		var fireworksAlgorithm = new DynamicFireworksAlgorithm(problem, stopChain, randomizer, _dynamicSettings, _mockLogger.Object);
+		var fireworksAlgorithm = new DynamicFireworksAlgorithm(problem, stopChain, _mockRandomizer, _dynamicSettings, _mockLogger.Object);
 		fireworksAlgorithm.OnStopConditionSatisfied += FireworksAlgorithm_OnStopConditionSatisfied!;
 
 		var solution = _timedExecutor.Execute(() => fireworksAlgorithm.Solve());
