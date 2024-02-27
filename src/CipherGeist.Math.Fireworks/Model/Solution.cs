@@ -14,7 +14,7 @@ public class Solution : IEquatable<Solution>, ISolution
 	/// <param name="quality">Solution quality (value of target function).</param>
 	public Solution(IDictionary<Dimension, double> coordinates, double quality)
 	{
-		Coordinates = coordinates;
+		Coordinates = new Dictionary<Dimension, double>(coordinates);
 		Quality = quality;
 	}
 

@@ -123,6 +123,10 @@ public class Firework : Solution
 			? "<None>"
 			: string.Join(", ", Coordinates.Values.Select(v => v.ToString()));
 
-		return $"Firework Info: {Label}. Solution Coordinates: ({coords})";
+		var quality = double.IsNaN(Quality)
+			? "<None>"
+			: Quality.ToString("N5");
+
+		return $"Firework Info: {Label}. Solution Coordinates: ({coords}). Quality: {quality}.";
 	}
 }

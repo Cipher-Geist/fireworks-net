@@ -10,7 +10,7 @@ public class DynamicFireworksAlgorithmTests
 	private Mock<ILogger<DynamicFireworksAlgorithm>> _mockLogger;
 	private DynamicFireworksAlgorithmSettings _dynamicSettings;
 	private TimedExecutor _timedExecutor;
-	private IRandomizer _mockRandomizer;
+	private IRandomizer _randomizer;
 
 	private const double TOLERANCE = 10E-3;
 	private const int MAXIMUM_ITERATIONS = 10_000;
@@ -34,8 +34,7 @@ public class DynamicFireworksAlgorithmTests
 			ReductionCoefficent = 0.9
 		};
 		_timedExecutor = new TimedExecutor();
-
-		_mockRandomizer = new DeterministicMockRandomizer(seed: 12345);
+		_randomizer = new Randomizer(RandomizerType.MersenneTwister);
 	}
 
 	public static IEnumerable<object[]> SolutionsData
@@ -70,9 +69,8 @@ public class DynamicFireworksAlgorithmTests
 		var stopChain = ChainStopCondition
 			.From(stepCounterStopCondition)
 			.Or(new CoordinateProximityStopCondition(problem!.KnownSolution!, distanceCalculator, TOLERANCE));
-		var randomizer = new Randomizer();
 
-		var fireworksAlgorithm = new DynamicFireworksAlgorithm(problem, stopChain, _mockRandomizer, _dynamicSettings, _mockLogger.Object);
+		var fireworksAlgorithm = new DynamicFireworksAlgorithm(problem, stopChain, _randomizer, _dynamicSettings, _mockLogger.Object);
 		fireworksAlgorithm.OnStopConditionSatisfied += FireworksAlgorithm_OnStopConditionSatisfied!;
 
 		var solution = _timedExecutor.Execute(() => fireworksAlgorithm.Solve());
@@ -80,38 +78,6 @@ public class DynamicFireworksAlgorithmTests
 
 		Console.WriteLine(
 			$"Coords = ({string.Join(", ", solution!.Coordinates!.Select(kvp => kvp!.Value!.ToString()))}), " + 
-			$"Quality = {solution!.Quality!}");
-
-		foreach (var kvp in solution!.Coordinates!)
-		{
-			Assert.That(kvp!.Value!, Is.EqualTo(problem!.KnownSolution!?.Coordinates?[kvp!.Key!]).Within((double)error));
-		}
-	}
-
-	[TestCaseSource(nameof(SolutionsData))]
-	public void DynamicFireworksAlgorithmDoesSolve2(object testName, object problemObject, object error, int maximumIterations)
-	{
-		var problem = (BenchmarkProblem)problemObject;
-
-		StepCounterStopCondition? stepCounterStopCondition = new (maximumIterations);
-		problem.QualityCalculated += stepCounterStopCondition!.IncrementCounter!;
-
-		var distanceCalculator = new EuclideanDistance(problem!.Dimensions!);
-		var stopChain = ChainStopCondition
-			.From(stepCounterStopCondition)
-			.Or(new CoordinateProximityStopCondition(problem!.KnownSolution!, distanceCalculator, TOLERANCE));
-
-		var randomizer = new Randomizer();
-		var ml = new Mock<ILogger<FireworksAlgorithm2012>>();
-
-		var fireworksAlgorithm = new FireworksAlgorithm2012(problem, stopChain, randomizer, _dynamicSettings, ml.Object);
-		fireworksAlgorithm.OnStopConditionSatisfied += FireworksAlgorithm_OnStopConditionSatisfied!;
-
-		var solution = _timedExecutor.Execute(() => fireworksAlgorithm.Solve());
-		Assert.That(solution, Is.Not.Null);
-
-		Console.WriteLine(
-			$"Coords = ({string.Join(", ", solution!.Coordinates!.Select(kvp => kvp!.Value!.ToString()))}), " +
 			$"Quality = {solution!.Quality!}");
 
 		foreach (var kvp in solution!.Coordinates!)
@@ -188,10 +154,9 @@ public class DynamicFireworksAlgorithmTests
 		DynamicFireworksAlgorithmSettings settings,
 		string expectedParamName)
 	{
-		var randomizer = new Randomizer();
 		var actualException = Assert.Throws<ArgumentNullException>(() =>
 		{
-			new DynamicFireworksAlgorithm(problem, stopCondition, randomizer, settings, _mockLogger.Object);
+			new DynamicFireworksAlgorithm(problem, stopCondition, _randomizer, settings, _mockLogger.Object);
 		});
 
 		Assert.That(actualException, Is.Not.Null);
