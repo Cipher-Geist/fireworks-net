@@ -33,6 +33,26 @@ jobs:
         uses: gittools/actions/gitversion/execute@v0.9.7
         with:
           useConfigFile: true
+      - name: Build the PFX for NuGet Package Signing
+        id: environment
+        run: |
+          # Export SSL certs:
+          cd src
+
+          echo "$CIPHER_GEIST_CRT" > certificate.crt
+          echo "$CIPHER_GEIST_KEY" > private.key
+
+          openssl \
+              pkcs12 \
+              -inkey private.key \
+              -in certificate.crt \
+              -export \
+              -out cipher-geist.pfx \
+              -passout pass:$CIPHER_GEIST_CRT_PWD
+
+          mv ./cipher-geist.pfx ./../
+          cd -
+
       - name: Build
         run: |
           dotnet_build()
@@ -47,12 +67,12 @@ jobs:
                 /p:InformationalVersion=$GITVERSION_INFORMATIONALVERSION
           }
           dotnet_build src/CipherGeist.Math.Fireworks/CipherGeist.Math.Fireworks.csproj
-      # - name: Run Unit Tests
-      #   run: |
-      #       dotnet test \
-      #           src/csharp/Protobuf/Migr8.DataContracts.Protobuf.Utils.Test/Migr8.DataContracts.Protobuf.Utils.Test.csproj \
-      #           --no-restore \
-      #           --verbosity normal
+      - name: Run Unit Tests
+        run: |
+          dotnet test \
+              test/CipherGeist.Math.Fireworks.Tests/CipherGeist.Math.Fireworks.Tests.csproj \
+              --no-restore \
+              --verbosity normal
       - name: Package
         run: |
           mkdir __out
@@ -69,6 +89,12 @@ jobs:
                 /p:InformationalVersion=$GITVERSION_INFORMATIONALVERSION
           }
           dotnet_pack src/CipherGeist.Math.Fireworks/CipherGeist.Math.Fireworks.csproj
+      - name: Sign Package
+        run: |
+          dotnet nuget sign "./__out/*.nupkg" \
+            --certificate-path ./cipher-geist.pfx \
+            --certificate-password ${{secrets.CIPHER_GEIST_CRT_PWD}} \
+            --timestamper "http://timestamp.digicert.com"
       - name: Publish to NuGet
         run: dotnet nuget push "./__out/*.nupkg" --skip-duplicate --no-symbols --api-key ${{secrets.NUGET_API_KEY}}
       - name: Cleanup
