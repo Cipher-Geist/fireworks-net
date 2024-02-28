@@ -52,10 +52,10 @@ jobs:
 
           mv ./cipher-geist.pfx ./../
           cd -
-         env:
-          CIPHER_GEIST_CRT: ${{ secrets.CIPHER_GEIST_CRT }}
-          CIPHER_GEIST_KEY: ${{ secrets.CIPHER_GEIST_KEY }}
-          CIPHER_GEIST_CRT_PWD: ${{ secrets.CIPHER_GEIST_CRT_PWD }} 
+        env:
+          CIPHER_GEIST_CRT: ${{secrets.CIPHER_GEIST_CRT}}
+          CIPHER_GEIST_KEY: ${{secrets.CIPHER_GEIST_KEY}}
+          CIPHER_GEIST_CRT_PWD: ${{secrets.CIPHER_GEIST_CRT_PWD}}
       - name: Build
         run: |
           dotnet_build()
