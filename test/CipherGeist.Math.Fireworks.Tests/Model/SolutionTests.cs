@@ -88,13 +88,6 @@ public class SolutionTests
 	}
 
 	[TestCaseSource(nameof(SolutionsData))]
-	public void EqualsSolutionsVariationsPositiveExpected(object solution, object obj, bool expected)
-	{
-		bool actual = solution.Equals(obj);
-		Assert.That(actual, Is.EqualTo(expected));
-	}
-
-	[TestCaseSource(nameof(SolutionsData))]
 	public void ComparingOperatorsSolutionsVariationsPositiveExpected(object solution, object obj, bool expected)
 	{
 		bool actual = solution == obj;

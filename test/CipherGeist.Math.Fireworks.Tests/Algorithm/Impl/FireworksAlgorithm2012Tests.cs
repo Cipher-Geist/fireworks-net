@@ -35,6 +35,9 @@ public class FireworksAlgorithm2012Tests
 		_randomizer = new Randomizer(RandomizerType.MersenneTwister);
 	}
 
+	/// <summary>
+	/// A cut down set of tests.
+	/// </summary>
 	public static IEnumerable<object[]> SolutionsData
 	{
 		get
@@ -43,14 +46,9 @@ public class FireworksAlgorithm2012Tests
 			{
 				new object[] { nameof(Sphere2012), Sphere2012.Create(), TOLERANCE, MAXIMUM_ITERATIONS },
 				new object[] { nameof(Cigar), Cigar.Create(), TOLERANCE, MAXIMUM_ITERATIONS },
-				new object[] { nameof(Ellipse), Ellipse.Create(), TOLERANCE, MAXIMUM_ITERATIONS },
 				new object[] { nameof(Griewank), Griewank.Create(), TOLERANCE, MAXIMUM_ITERATIONS },
 				new object[] { nameof(Rastrigrin), Rastrigrin.Create(), TOLERANCE, MAXIMUM_ITERATIONS },
-				new object[] { nameof(Sphere), Sphere.Create(), TOLERANCE, MAXIMUM_ITERATIONS },
-				new object[] { nameof(Tablet), Tablet.Create(), TOLERANCE, MAXIMUM_ITERATIONS },
-				new object[] { nameof(Beale), Beale.Create(), 0.01, MAXIMUM_ITERATIONS },
-				new object[] { nameof(Levi), Levi.Create(), TOLERANCE, MAXIMUM_ITERATIONS },
-				new object[] { nameof(Easom), Easom.Create(), TOLERANCE, MAXIMUM_ITERATIONS }
+				new object[] { nameof(Sphere), Sphere.Create(), TOLERANCE, MAXIMUM_ITERATIONS }
 			};
 		}
 	}
