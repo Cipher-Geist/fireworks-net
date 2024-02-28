@@ -47,11 +47,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Update="cipher-geist-v0.png">
-	    <Pack>True</Pack>
-	    <PackagePath>\</PackagePath>
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
+		<None Include="cipher-geist-v0.png" Pack="true" PackagePath="\" />
 	</ItemGroup>
 
 </Project>
