@@ -48,7 +48,9 @@ public class FireworksAlgorithm2012Tests
 				new object[] { nameof(Rastrigrin), Rastrigrin.Create(), TOLERANCE, MAXIMUM_ITERATIONS },
 				new object[] { nameof(Sphere), Sphere.Create(), TOLERANCE, MAXIMUM_ITERATIONS },
 				new object[] { nameof(Tablet), Tablet.Create(), TOLERANCE, MAXIMUM_ITERATIONS },
-				new object[] { nameof(Beale), Beale.Create(), 0.01, MAXIMUM_ITERATIONS }
+				new object[] { nameof(Beale), Beale.Create(), 0.01, MAXIMUM_ITERATIONS },
+				new object[] { nameof(Levi), Levi.Create(), TOLERANCE, MAXIMUM_ITERATIONS },
+				new object[] { nameof(Easom), Easom.Create(), TOLERANCE, MAXIMUM_ITERATIONS }
 			};
 		}
 	}
