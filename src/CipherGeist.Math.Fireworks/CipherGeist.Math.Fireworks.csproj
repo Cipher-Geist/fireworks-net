@@ -28,10 +28,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <None Remove="cipher-geist-v0.png" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<Content Include="cipher-geist-v0.ico">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
@@ -51,11 +47,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Resource Include="cipher-geist-v0.png">
+	  <None Update="cipher-geist-v0.png">
 	    <Pack>True</Pack>
 	    <PackagePath>\</PackagePath>
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </Resource>
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
 
 </Project>
