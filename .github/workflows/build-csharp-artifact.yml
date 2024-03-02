@@ -70,43 +70,35 @@ jobs:
                 /p:InformationalVersion=$GITVERSION_INFORMATIONALVERSION
           }
           dotnet_build src/CipherGeist.Math.Fireworks/CipherGeist.Math.Fireworks.csproj
-  test:
-    runs-on: ubuntu-latest
-    needs: [ build ]
-    steps:
-    - name: Run Unit Tests
-      run: |
-        dotnet test \
-            test/CipherGeist.Math.Fireworks.Tests/CipherGeist.Math.Fireworks.Tests.csproj \
-            --no-restore \
-            --verbosity normal
-  package-publish:
-    runs-on: ubuntu-latest
-    needs: [ build, test ]
-    steps:
-    - name: Package
-      run: |
-        mkdir __out
-        dotnet_pack()
-        {
-            ARG_PROJECT_PATH=$1
-            dotnet pack \
-              $ARG_PROJECT_PATH \
-              -c Release \
-              -o __out \
+      - name: Run Unit Tests
+        run: |
+          dotnet test \
+              test/CipherGeist.Math.Fireworks.Tests/CipherGeist.Math.Fireworks.Tests.csproj \
               --no-restore \
-              /p:Version=$GITVERSION_ASSEMBLYSEMVER \
-              /p:AssemblyVersion=$GITVERSION_ASSEMBLYSEMVER \
-              /p:InformationalVersion=$GITVERSION_INFORMATIONALVERSION
-        }
-        dotnet_pack src/CipherGeist.Math.Fireworks/CipherGeist.Math.Fireworks.csproj
-    - name: Sign Package
-      run: |
-        dotnet nuget sign "./__out/*.nupkg" \
-          --certificate-path ./cipher-geist.pfx \
-          --certificate-password ${{secrets.CIPHER_GEIST_CRT_PWD}} \
-          --timestamper "http://timestamp.digicert.com"
-    - name: Publish to NuGet
-      run: dotnet nuget push "./__out/*.nupkg" --skip-duplicate --no-symbols --api-key ${{secrets.NUGET_API_KEY}}
-    - name: Cleanup
-      run: rm -rf __out
+              --verbosity normal
+      - name: Package
+        run: |
+          mkdir __out
+          dotnet_pack()
+          {
+              ARG_PROJECT_PATH=$1
+              dotnet pack \
+                $ARG_PROJECT_PATH \
+                -c Release \
+                -o __out \
+                --no-restore \
+                /p:Version=$GITVERSION_ASSEMBLYSEMVER \
+                /p:AssemblyVersion=$GITVERSION_ASSEMBLYSEMVER \
+                /p:InformationalVersion=$GITVERSION_INFORMATIONALVERSION
+          }
+          dotnet_pack src/CipherGeist.Math.Fireworks/CipherGeist.Math.Fireworks.csproj
+      - name: Sign Package
+        run: |
+          dotnet nuget sign "./__out/*.nupkg" \
+            --certificate-path ./cipher-geist.pfx \
+            --certificate-password ${{secrets.CIPHER_GEIST_CRT_PWD}} \
+            --timestamper "http://timestamp.digicert.com"
+      - name: Publish to NuGet
+        run: dotnet nuget push "./__out/*.nupkg" --skip-duplicate --no-symbols --api-key ${{secrets.NUGET_API_KEY}}
+      - name: Cleanup
+        run: rm -rf __out
