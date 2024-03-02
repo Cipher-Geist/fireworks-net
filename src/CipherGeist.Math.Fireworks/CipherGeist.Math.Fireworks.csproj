@@ -25,6 +25,7 @@
 		<RepositoryUrl>https://github.com/Cipher-Geist/fireworks-net</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -35,6 +36,10 @@
 
 	<ItemGroup>
 		<None Include="..\..\.editorconfig" Link=".editorconfig" />
+		<None Include="..\..\README.md">
+		  <Pack>True</Pack>
+		  <PackagePath>\</PackagePath>
+		</None>
 	</ItemGroup>
 
 	<ItemGroup>
