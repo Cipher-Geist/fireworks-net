@@ -4,7 +4,7 @@
 
 A collection of fully featured Fireworks Algorithm solvers in .net. The algorithms variations included in this library are 
 
-- Fireworks Algorithm (FWA) Ying Tan, Yuanchun Zhu, "Fireworks Algorithms for Optimization", Proc. of International Conference on Swarm Intelligence (ICSI’2010), June 12-15, Beijing, China, 2010. ICSI 2010, Part II, LNCS 6145, pp.355-364, 2010. Springer-Verlag, 2010. - Referred in code as 2010 paper.
+- Fireworks Algorithm (FWA) Ying Tan, Yuanchun Zhu, "Fireworks Algorithms for Optimization", Proc. of International Conference on Swarm Intelligence (ICSIâ€™2010), June 12-15, Beijing, China, 2010. ICSI 2010, Part II, LNCS 6145, pp.355-364, 2010. Springer-Verlag, 2010. - Referred in code as 2010 paper.
 
 - Fireworks Algorithm 2012 (FWA2012) Ying Tan, "Fireworks Algorithm for Optimization", International Journal of Bio-Inspired Computation, 2012, 4(1), 1-10. - Referred in code as 2012 paper.
 
@@ -18,7 +18,7 @@ This intended to provide a simple to use, fully featured, and extensible impleme
 ## Reference
 
 Implementation is based on the following papers that can be found by the [link](http://www.cil.pku.edu.cn/publications/):
-* Ying Tan, Yuanchun Zhu, "Fireworks Algorithms for Optimization", Proc. of International Conference on Swarm Intelligence (ICSI’2010), June 12-15, Beijing, China, 2010. ICSI 2010, Part II, LNCS 6145, pp.355-364, 2010. Springer-Verlag, 2010. - Referred in code as **2010 paper**.
+* Ying Tan, Yuanchun Zhu, "Fireworks Algorithms for Optimization", Proc. of International Conference on Swarm Intelligence (ICSIâ€™2010), June 12-15, Beijing, China, 2010. ICSI 2010, Part II, LNCS 6145, pp.355-364, 2010. Springer-Verlag, 2010. - Referred in code as **2010 paper**.
 * Y. Pei, S.Q. Zheng, Y. Tan and Hideyuki Takagi, "An Empirical Study on Influence of Approximation Approaches on Enhancing Fireworks Algorithm", IEEE International Conference on System, Man and Cybernetics (SMC 2012), Seoul, Korea. October 14-17, 2012. - Referred in code as **2012 paper**.
 * S.Q. Zheng, Andreas Janecek, J.Z. Li, and Y. Tan, "Dynamic Search in Fireworks Algorithm", 2014 
  IEEE World Conference on Computational Intelligence (IEEE WCCI'2014) - IEEE Congress on Evolutionary  Computation (CEC'2014), July 07-11, 2014, Beijing International Convention Center (BICC),  Beijing, China, pp. 3222-3229.
@@ -32,13 +32,13 @@ The project is released under the terms of the MIT license. See [LICENSE](LICENS
 The main library project is built using .net core 8.0 and uses the following libraries:
 
 - [MathNet.Numerics](https://www.nuget.org/packages/MathNet.Numerics/)
-- [Microsoft.Extensions.Logging](https://www.nuget.org/packages/Microsoft.Extensions.Logging/)]
-- [StyleCop.Analyzers](https://www.nuget.org/packages/StyleCop.Analyzers/)]
+- [Microsoft.Extensions.Logging](https://www.nuget.org/packages/Microsoft.Extensions.Logging/)
+- [StyleCop.Analyzers](https://www.nuget.org/packages/StyleCop.Analyzers/)
 
 The test project is also built using .net core 8.0 and uses the following libraries:
 
 - [Microsoft.NET.Test.Sdk](https://www.nuget.org/packages/Microsoft.NET.Test.Sdk/)
-- [NUnit](https://www.nuget.org/packages/NUnit/)]
-- [Moq](https://www.nuget.org/packages/Moq/)]]
+- [NUnit](https://www.nuget.org/packages/NUnit/)
+- [Moq](https://www.nuget.org/packages/Moq/)
 
 Note NuGet packages are not committed to the repository, you need to use Package Restore to get them before the build.
