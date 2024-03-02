@@ -1,6 +1,6 @@
 # fireworks-net
 
-![workflow-status](https://github.com/Cipher-Geist/fireworks-net/actions/workflows/badge.svg)
+![workflow-status](https://github.com/Cipher-Geist/fireworks-net/actions/build-csharp-artifact.yml/badge.svg)
 
 A collection of fully featured Fireworks Algorithm solvers in .net. The algorithms variations included in this library are 
 
