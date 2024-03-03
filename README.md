@@ -1,4 +1,4 @@
-![build-csharp-artifact](https://github.com/Cipher-Geist/fireworks-net/actions/build-csharp-artifact.yml/badge.svg)
+![workflow-status](https://github.com/Cipher-Geist/fireworks-net/actions/workflows/build-csharp-artifact.yml/badge.svg)
 
 # fireworks-net
 
