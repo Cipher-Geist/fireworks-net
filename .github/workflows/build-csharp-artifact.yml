@@ -1,0 +1,104 @@
+name: Build and Publish
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-test-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          source-url: https://api.nuget.org/v3/index.json
+          dotnet-version: 8.0.x
+        env:
+          NUGET_AUTH_TOKEN: ${{secrets.NUGET_API_KEY}}
+      - name: Install GitVersion @5
+        uses: gittools/actions/gitversion/setup@v0.9.7
+        with:
+          versionSpec: "5.x"
+          updateProjectFiles: "versionSpec"
+      - name: Restore Dependencies
+        run: |
+          dotnet restore CipherGeist.Math.Fireworks.sln
+      - name: Determine Version
+        uses: gittools/actions/gitversion/execute@v0.9.7
+        with:
+          useConfigFile: true
+      - name: Build the PFX for NuGet Package Signing
+        id: environment
+        run: |
+          # Export SSL certs:
+          cd src
+
+          echo "$CIPHER_GEIST_CRT" > certificate.crt
+          echo "$CIPHER_GEIST_KEY" > private.key
+
+          openssl \
+              pkcs12 \
+              -inkey private.key \
+              -in certificate.crt \
+              -export \
+              -out cipher-geist.pfx \
+              -passout pass:$CIPHER_GEIST_PWD
+
+          mv ./cipher-geist.pfx ./../
+          cd -
+        env:
+          CIPHER_GEIST_CRT: ${{secrets.CIPHER_GEIST_IO_CRT}}
+          CIPHER_GEIST_KEY: ${{secrets.CIPHER_GEIST_IO_KEY}}
+          CIPHER_GEIST_PWD: ${{secrets.CIPHER_GEIST_IO_PWD}}
+      - name: Build
+        run: |
+          dotnet_build()
+          {
+            ARG_PROJECT_PATH=$1
+            dotnet build \
+                $ARG_PROJECT_PATH \
+                --configuration Release \
+                --no-restore \
+                /p:Version=$GITVERSION_ASSEMBLYSEMVER \
+                /p:AssemblyVersion=$GITVERSION_ASSEMBLYSEMVER \
+                /p:InformationalVersion=$GITVERSION_INFORMATIONALVERSION
+          }
+          dotnet_build src/CipherGeist.Math.Fireworks/CipherGeist.Math.Fireworks.csproj
+      - name: Run Unit Tests
+        run: |
+          dotnet test \
+              test/CipherGeist.Math.Fireworks.Tests/CipherGeist.Math.Fireworks.Tests.csproj \
+              --no-restore \
+              --verbosity normal
+      - name: Package
+        run: |
+          mkdir __out
+          dotnet_pack()
+          {
+              ARG_PROJECT_PATH=$1
+              dotnet pack \
+                $ARG_PROJECT_PATH \
+                -c Release \
+                -o __out \
+                --no-restore \
+                /p:Version=$GITVERSION_ASSEMBLYSEMVER \
+                /p:AssemblyVersion=$GITVERSION_ASSEMBLYSEMVER \
+                /p:InformationalVersion=$GITVERSION_INFORMATIONALVERSION
+          }
+          dotnet_pack src/CipherGeist.Math.Fireworks/CipherGeist.Math.Fireworks.csproj
+      - name: Sign Package
+        run: |
+          dotnet nuget sign "./__out/*.nupkg" \
+            --certificate-path ./cipher-geist.pfx \
+            --certificate-password ${{secrets.CIPHER_GEIST_IO_PWD}} \
+            --timestamper "http://timestamp.digicert.com"
+      - name: Publish to NuGet
+        run: dotnet nuget push "./__out/*.nupkg" --skip-duplicate --no-symbols --api-key ${{secrets.NUGET_API_KEY}}
+      - name: Cleanup
+        run: rm -rf __out
