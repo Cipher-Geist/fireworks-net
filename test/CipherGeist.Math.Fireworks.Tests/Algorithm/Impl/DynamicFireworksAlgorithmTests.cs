@@ -64,7 +64,7 @@ public class DynamicFireworksAlgorithmTests
 	{
 		var problem = (BenchmarkProblem)problemObject;
 
-		StepCounterStopCondition? stepCounterStopCondition = new (maximumIterations);
+		StepCounterStopCondition? stepCounterStopCondition = new(maximumIterations);
 		problem.QualityCalculated += stepCounterStopCondition!.IncrementCounter!;
 
 		var distanceCalculator = new EuclideanDistance(problem!.Dimensions!);
@@ -78,9 +78,11 @@ public class DynamicFireworksAlgorithmTests
 		var solution = _timedExecutor.Execute(() => fireworksAlgorithm.Solve());
 		Assert.That(solution, Is.Not.Null);
 
+#if DEBUG
 		Console.WriteLine(
-			$"Coords = ({string.Join(", ", solution!.Coordinates!.Select(kvp => kvp!.Value!.ToString()))}), " + 
+			$"Coords = ({string.Join(", ", solution!.Coordinates!.Select(kvp => kvp!.Value!.ToString()))}), " +
 			$"Quality = {solution!.Quality!}");
+#endif
 
 		foreach (var kvp in solution!.Coordinates!)
 		{
@@ -115,7 +117,7 @@ public class DynamicFireworksAlgorithmTests
 			var testStopCondition = new CounterStopCondition(1);
 			var testFireworksAlgoritmSettings = new DynamicFireworksAlgorithmSettings();
 
-			return new[] 
+			return new[]
 			{
 				new object?[] { null,         testStopCondition, testFireworksAlgoritmSettings, "problem" },
 				new object?[] { _testProblem, null,              testFireworksAlgoritmSettings, "stopCondition" },

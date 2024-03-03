@@ -58,7 +58,7 @@ public class FireworksAlgorithm2012Tests
 	{
 		var problem = (BenchmarkProblem)problemObject;
 
-		StepCounterStopCondition? stepCounterStopCondition = new (maximumIterations);
+		StepCounterStopCondition? stepCounterStopCondition = new(maximumIterations);
 		problem.QualityCalculated += stepCounterStopCondition!.IncrementCounter!;
 
 		var distanceCalculator = new EuclideanDistance(problem!.Dimensions!);
@@ -72,9 +72,11 @@ public class FireworksAlgorithm2012Tests
 		var solution = _timedExecutor.Execute(() => fireworksAlgorithm.Solve());
 		Assert.That(solution, Is.Not.Null);
 
+#if DEBUG
 		Console.WriteLine(
 			$"Coords = ({string.Join(", ", solution!.Coordinates!.Select(kvp => kvp!.Value!.ToString()))}), " +
 			$"Quality = {solution!.Quality!}");
+#endif
 
 		foreach (var kvp in solution!.Coordinates!)
 		{
