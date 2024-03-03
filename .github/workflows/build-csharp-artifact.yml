@@ -48,14 +48,14 @@ jobs:
               -in certificate.crt \
               -export \
               -out cipher-geist.pfx \
-              -passout pass:$CIPHER_GEIST_CRT_PWD
+              -passout pass:$CIPHER_GEIST_PWD
 
           mv ./cipher-geist.pfx ./../
           cd -
         env:
-          CIPHER_GEIST_CRT: ${{secrets.CIPHER_GEIST_CRT}}
-          CIPHER_GEIST_KEY: ${{secrets.CIPHER_GEIST_KEY}}
-          CIPHER_GEIST_CRT_PWD: ${{secrets.CIPHER_GEIST_CRT_PWD}}
+          CIPHER_GEIST_CRT: ${{secrets.CIPHER_GEIST_IO_CRT}}
+          CIPHER_GEIST_KEY: ${{secrets.CIPHER_GEIST_IO_KEY}}
+          CIPHER_GEIST_PWD: ${{secrets.CIPHER_GEIST_IO_PWD}}
       - name: Build
         run: |
           dotnet_build()
@@ -96,7 +96,7 @@ jobs:
         run: |
           dotnet nuget sign "./__out/*.nupkg" \
             --certificate-path ./cipher-geist.pfx \
-            --certificate-password ${{secrets.CIPHER_GEIST_CRT_PWD}} \
+            --certificate-password ${{secrets.CIPHER_GEIST_PWD}} \
             --timestamper "http://timestamp.digicert.com"
       - name: Publish to NuGet
         run: dotnet nuget push "./__out/*.nupkg" --skip-duplicate --no-symbols --api-key ${{secrets.NUGET_API_KEY}}
