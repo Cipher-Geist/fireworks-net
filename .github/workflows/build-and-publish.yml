@@ -41,14 +41,15 @@ jobs:
 
           echo "$CIPHER_GEIST_CRT" > certificate.crt
           echo "$CIPHER_GEIST_KEY" > private.key
+          echo "$CIPHER_GEIST_PFX" > cipher-geist.pfx
 
-          openssl \
-              pkcs12 \
-              -inkey private.key \
-              -in certificate.crt \
-              -export \
-              -out cipher-geist.pfx \
-              -passout pass:$CIPHER_GEIST_PWD
+          # openssl \
+          #     pkcs12 \
+          #     -inkey private.key \
+          #     -in certificate.crt \
+          #     -export \
+          #     -out cipher-geist.pfx \
+          #     -passout pass:$CIPHER_GEIST_PWD
 
           mv ./cipher-geist.pfx ./../
           cd -
@@ -56,6 +57,7 @@ jobs:
           CIPHER_GEIST_CRT: ${{secrets.CIPHER_GEIST_IO_CRT}}
           CIPHER_GEIST_KEY: ${{secrets.CIPHER_GEIST_IO_KEY}}
           CIPHER_GEIST_PWD: ${{secrets.CIPHER_GEIST_IO_PWD}}
+          CIPHER_GEIST_PFX: ${{secrets.CIPHER_GEIST_IO_PFX}}
       - name: Build
         run: |
           dotnet_build()
@@ -92,12 +94,17 @@ jobs:
                 /p:InformationalVersion=$GITVERSION_INFORMATIONALVERSION
           }
           dotnet_pack src/CipherGeist.Math.Fireworks/CipherGeist.Math.Fireworks.csproj
-      # - name: Sign Package
-      #   run: |
-      #     dotnet nuget sign "./__out/*.nupkg" \
-      #       --certificate-path ./cipher-geist.pfx \
-      #       --certificate-password ${{secrets.CIPHER_GEIST_IO_PWD}} \
-      #       --timestamper "http://timestamp.digicert.com"
+      - name: Sign Package
+        # run: |
+        #   dotnet nuget sign "./__out/*.nupkg" \
+        #     --certificate-path ./cipher-geist.pfx \
+        #     --certificate-password ${{secrets.CIPHER_GEIST_IO_PWD}} \
+        #     --timestamper "http://timestamp.digicert.com"
+        run: |
+          dotnet nuget sign "./__out/*.nupkg" \
+            --certificate-path ./cipher-geist.pfx \
+            --certificate-password ${{secrets.CIPHER_GEIST_IO_PWD}} \
+            --timestamper "http://timestamp.digicert.com"
       - name: Publish to NuGet
         run: dotnet nuget push "./__out/*.nupkg" --skip-duplicate --no-symbols --api-key ${{secrets.NUGET_API_KEY}}
       - name: Cleanup
