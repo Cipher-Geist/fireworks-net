@@ -32,6 +32,19 @@
 		<Content Include="cipher-geist-v0.ico">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
+		<Content Include="cipher-geist-v0.jpg">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		  <Pack>True</Pack>
+		  <PackagePath>\</PackagePath>
+		</Content>
+		<Content Include="cipher-geist-v0.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</Content>
+		<Content Include="GlobalUsings.cs">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -49,18 +62,6 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-	</ItemGroup>
-
-	<ItemGroup>
-		<None Include="cipher-geist-v0.png" Pack="true" PackagePath="\" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <None Update="cipher-geist-v0.jpg">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	    <Pack>True</Pack>
-	    <PackagePath>\</PackagePath>
-	  </None>
 	</ItemGroup>
 
 </Project>
