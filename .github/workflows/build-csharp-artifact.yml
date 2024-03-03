@@ -96,7 +96,7 @@ jobs:
         run: |
           dotnet nuget sign "./__out/*.nupkg" \
             --certificate-path ./cipher-geist.pfx \
-            --certificate-password ${{secrets.CIPHER_GEIST_PWD}} \
+            --certificate-password ${{secrets.CIPHER_GEIST_IO_PWD}} \
             --timestamper "http://timestamp.digicert.com"
       - name: Publish to NuGet
         run: dotnet nuget push "./__out/*.nupkg" --skip-duplicate --no-symbols --api-key ${{secrets.NUGET_API_KEY}}
