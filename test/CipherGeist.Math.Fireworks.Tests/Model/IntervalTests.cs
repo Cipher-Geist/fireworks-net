@@ -154,6 +154,19 @@ public class IntervalTests
 		Assert.That(actualException.ParamName, Is.EqualTo(expectedParamName));
 	}
 
+	[Test]
+	public void Create_PartiallyOpen_DoesReturnExpected()
+	{
+		var range = new Interval(0, true, 10, false);
+
+		Assert.That(range.Minimum, Is.EqualTo(0));
+		Assert.That(range.Maximum, Is.EqualTo(10));
+
+		Assert.That(range.IsInRange(5), Is.True);
+		Assert.That(range.IsInRange(0), Is.False);
+		Assert.That(range.IsInRange(10), Is.True);
+	}
+
 	[TestCaseSource(nameof(RangeDataOfCreateMethod))]
 	public void Create_NegativeParams_ArgumentOutOfRangeExceptionThrown(double mean, object deviation, string expectedParamName)
 	{
