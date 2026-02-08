@@ -1,0 +1,63 @@
+name: Build-Test-Publish
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-test-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          source-url: https://api.nuget.org/v3/index.json
+          dotnet-version: 10.0.x
+        env:
+          NUGET_AUTH_TOKEN: ${{secrets.NUGET_API_KEY}}
+      - name: Install GitVersion
+        uses: gittools/actions/gitversion/setup@v4
+        with:
+          versionSpec: "6.x"
+      - name: Restore Dependencies
+        run: |
+          dotnet restore CipherGeist.Math.Fireworks.sln
+      - name: Determine Version
+        id: gitversion
+        uses: gittools/actions/gitversion/execute@v4
+      - name: Build
+        run: |
+          dotnet build \
+              src/CipherGeist.Math.Fireworks/CipherGeist.Math.Fireworks.csproj \
+              --configuration Release \
+              --no-restore \
+              /p:Version=${{ steps.gitversion.outputs.assemblySemVer }} \
+              /p:AssemblyVersion=${{ steps.gitversion.outputs.assemblySemVer }} \
+              /p:InformationalVersion=${{ steps.gitversion.outputs.informationalVersion }}
+      - name: Run Unit Tests
+        run: |
+          dotnet test \
+              test/CipherGeist.Math.Fireworks.Tests/CipherGeist.Math.Fireworks.Tests.csproj \
+              --no-restore \
+              --verbosity normal
+      - name: Package
+        run: |
+          mkdir __out
+          dotnet pack \
+              src/CipherGeist.Math.Fireworks/CipherGeist.Math.Fireworks.csproj \
+              -c Release \
+              -o __out \
+              --no-restore \
+              /p:Version=${{ steps.gitversion.outputs.assemblySemVer }} \
+              /p:AssemblyVersion=${{ steps.gitversion.outputs.assemblySemVer }} \
+              /p:InformationalVersion=${{ steps.gitversion.outputs.informationalVersion }}
+      - name: Publish to NuGet
+        run: dotnet nuget push "./__out/*.nupkg" --skip-duplicate --no-symbols --api-key ${{secrets.NUGET_API_KEY}}
+      - name: Cleanup
+        run: rm -rf __out
